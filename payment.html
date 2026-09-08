@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment - Chobrima Prints</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 20px 8%;
+        }
+
+        .payment-box {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .price {
+            font-size: 30px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>CHOBRIMA PRINTS</h1>
+</header>
+
+<div class="payment-box">
+
+    <h2>Payment</h2>
+
+    <p>Blessed Forever Design V.1</p>
+
+    <div class="price">
+        ₱99
+    </div>
+
+    <p>
+        This is a TEST payment.
+    </p>
+
+    <form action="/payment-success" method="POST">
+
+    <input type="hidden" name="name" value="{{ name }}">
+    <input type="hidden" name="email" value="{{ email }}">
+
+    <button type="submit">
+        PAY ₱99 — TEST PAYMENT
+    </button>
+
+</form>
+
+</div>
+
+</body>
+</html>
