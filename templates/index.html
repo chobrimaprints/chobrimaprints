@@ -4,100 +4,1414 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Chobrima Prints - Digital Store</title>
+    <title>Chobrima Prints | Digital Designs</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f5f5f5;
+        * {
+            box-sizing: border-box;
         }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #111;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
 
         header {
             background: #111;
             color: white;
-            padding: 20px 8%;
+            padding: 16px 25px;
         }
 
-        header h1 {
+        .header-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            min-width: 220px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            color: #999;
+            font-size: 11px;
+            margin-top: 3px;
+            letter-spacing: .7px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        nav a {
+            color: #ddd;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-button {
+            color: white;
+            font-size: 18px;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+        }
+
+        .icon-button:hover {
+            background: #222;
+        }
+
+        .cart-wrapper {
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #1683ff;
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background: #111;
+            color: white;
+            padding: 58px 25px 62px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .hero-small {
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            margin-bottom: 14px;
+            font-weight: bold;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.08;
             margin: 0;
+            max-width: 680px;
+            letter-spacing: -1px;
         }
 
-        .container {
-            width: 85%;
-            max-width: 1100px;
-            margin: 50px auto;
+        .hero p {
+            color: #bbb;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 18px 0 25px;
         }
 
-        .product {
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-button {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: .2s;
+        }
+
+        .primary-button {
             background: white;
-            padding: 30px;
+            color: #111;
+        }
+
+        .primary-button:hover {
+            background: #eee;
+        }
+
+        .secondary-button {
+            border: 1px solid #555;
+            color: white;
+        }
+
+        .secondary-button:hover {
+            background: #222;
+        }
+
+        .hero-features {
+            display: flex;
+            gap: 28px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .hero-feature {
+            color: #bbb;
+            font-size: 12px;
+        }
+
+        .hero-feature strong {
+            color: white;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 42px 20px 65px;
+        }
+
+        .section-heading {
+            margin-bottom: 20px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .section-heading p {
+            margin: 6px 0 0;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* =========================
+           CATEGORIES
+        ========================= */
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .category-card {
+            background: white;
             border-radius: 12px;
+            padding: 24px 18px;
+            min-height: 130px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: .2s;
+            border: 1px solid #eee;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0,0,0,.08);
+        }
+
+        .category-icon {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .category-card h3 {
+            margin: 0 0 5px;
+            font-size: 15px;
+        }
+
+        .category-card span {
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* =========================
+           TOOLBAR
+        ========================= */
+
+        .design-toolbar {
+            background: white;
+            border-radius: 10px;
+            padding: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+
+        .search-box {
+            flex: 1;
             max-width: 500px;
         }
 
-        .product img {
+        .search-box input {
             width: 100%;
-            border-radius: 8px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            padding: 11px 14px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #1683ff;
+        }
+
+        .sort-select {
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            padding: 11px 13px;
+            background: white;
+            font-size: 13px;
+            outline: none;
+        }
+
+        /* =========================
+           DESIGNS HEADER
+        ========================= */
+
+        .designs-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 0 18px;
+        }
+
+        .designs-heading h2 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .design-count {
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* =========================
+           PRODUCT GRID
+        ========================= */
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            transition: .2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,.1);
+        }
+
+        .product-image {
+            position: relative;
+            height: 255px;
+            background: #f7f7f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #1683ff;
+            color: white;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .free-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #111;
+            color: white;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-info {
+            padding: 16px;
+        }
+
+        .product-info h3 {
+            margin: 0 0 6px;
+            font-size: 15px;
+            line-height: 1.35;
+        }
+
+        .product-format {
+            color: #888;
+            font-size: 11px;
+            margin-bottom: 10px;
         }
 
         .price {
-            font-size: 28px;
+            font-size: 19px;
             font-weight: bold;
-            margin: 20px 0;
+            margin-bottom: 13px;
         }
 
-        .buy-button {
-            display: inline-block;
+        .free-price {
+            color: #1683ff;
+        }
+
+        .view-button {
+            display: block;
+            text-align: center;
             background: #111;
             color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: .2s;
         }
 
-        .buy-button:hover {
+        .view-button:hover {
             background: #333;
+        }
+
+        /* =========================
+           EMPTY / COMING SOON
+        ========================= */
+
+        .coming-soon {
+            margin-top: 30px;
+            padding: 28px 20px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .coming-soon h3 {
+            margin: 0 0 6px;
+            font-size: 16px;
+        }
+
+        .coming-soon p {
+            margin: 0;
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* =========================
+           TRUST
+        ========================= */
+
+        .trust-section {
+            margin-top: 55px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            overflow: hidden;
+        }
+
+        .trust-item {
+            padding: 23px 20px;
+            text-align: center;
+            border-right: 1px solid #eee;
+        }
+
+        .trust-item:last-child {
+            border-right: none;
+        }
+
+        .trust-icon {
+            font-size: 23px;
+            margin-bottom: 8px;
+        }
+
+        .trust-item h3 {
+            margin: 0 0 5px;
+            font-size: 14px;
+        }
+
+        .trust-item p {
+            margin: 0;
+            color: #888;
+            font-size: 11px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #111;
+            color: white;
+            padding: 35px 20px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .footer-brand strong {
+            font-size: 17px;
+        }
+
+        .footer-brand p {
+            margin: 6px 0 0;
+            color: #888;
+            font-size: 11px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            font-size: 11px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            max-width: 1200px;
+            margin: 25px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid #292929;
+            color: #666;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1050px) {
+
+            nav {
+                gap: 15px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .header-inner {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .header-actions {
+                margin-left: auto;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .trust-section {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-item {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .trust-item:last-child {
+                border-bottom: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 14px 18px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .tagline {
+                font-size: 9px;
+            }
+
+            .hero {
+                padding: 45px 20px 48px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .hero-features {
+                gap: 12px;
+                flex-direction: column;
+            }
+
+            main {
+                padding: 32px 15px 50px;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .category-card {
+                min-height: 115px;
+                padding: 18px 14px;
+            }
+
+            .category-icon {
+                font-size: 21px;
+            }
+
+            .category-card h3 {
+                font-size: 13px;
+            }
+
+            .design-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: none;
+            }
+
+            .sort-select {
+                width: 100%;
+            }
+
+            .designs-heading h2 {
+                font-size: 21px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .product-image {
+                height: 190px;
+                padding: 12px;
+            }
+
+            .product-info {
+                padding: 12px;
+            }
+
+            .product-info h3 {
+                font-size: 13px;
+            }
+
+            .product-format {
+                font-size: 10px;
+            }
+
+            .price {
+                font-size: 16px;
+            }
+
+            .view-button {
+                padding: 9px 5px;
+                font-size: 10px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 380px) {
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 280px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
-    <h1>CHOBRIMA PRINTS</h1>
-</header>
 
-<div class="container">
+    <div class="header-inner">
 
-    <div class="product">
+        <div class="brand">
 
-        <h2>Blessed Forever Design V.1</h2>
+            <div class="logo">
+                CHOBRIMA PRINTS
+            </div>
 
-        <p>
-            Premium digital design for your printing projects.
-        </p>
+            <div class="tagline">
+                DESIGNS FOR CREATORS
+            </div>
 
-        <p>
-            Included files:
-        </p>
-
-        <ul>
-            <li>SVG File</li>
-            <li>PNG File</li>
-        </ul>
-
-        <div class="price">
-            ₱99
         </div>
 
-        <a href="/checkout" class="buy-button">
-            BUY NOW
-        </a>
+        <nav>
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="#designs">
+                Digital Designs
+            </a>
+
+            <a href="#printing">
+                Printing Services
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="/contact">
+                Contact
+            </a>
+
+        </nav>
+
+        <div class="header-actions">
+
+            <a href="#designs" class="icon-button" title="Search">
+                🔍
+            </a>
+
+            <a href="#" class="icon-button cart-wrapper" title="Cart">
+                🛒
+                <span class="cart-badge">
+                    0
+                </span>
+            </a>
+
+        </div>
 
     </div>
 
-</div>
+</header>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <div class="hero-small">
+            HIGH-QUALITY VECTOR & RASTER FILES
+        </div>
+
+        <h1>
+            Digital Designs<br>
+            for Your Creativity
+        </h1>
+
+        <p>
+            Premium designs for t-shirt printing,
+            stickers, bags and more.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#designs" class="hero-button primary-button">
+                Browse Designs →
+            </a>
+
+            <a href="#printing" class="hero-button secondary-button">
+                Printing Services
+            </a>
+
+        </div>
+
+        <div class="hero-features">
+
+            <div class="hero-feature">
+                ⚡ <strong>Instant Download</strong>
+            </div>
+
+            <div class="hero-feature">
+                🛡️ <strong>High Quality</strong>
+            </div>
+
+            <div class="hero-feature">
+                ♾️ <strong>Commercial Use</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main>
+
+
+    <!-- SHOP BY CATEGORY -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <h2>
+                Shop by Category
+            </h2>
+
+            <p>
+                Find the right design for your next project.
+            </p>
+
+        </div>
+
+        <div class="category-grid">
+
+            <a href="#designs" class="category-card">
+
+                <div class="category-icon">
+                    👕
+                </div>
+
+                <h3>
+                    T-Shirt Designs
+                </h3>
+
+                <span>
+                    Premium shirt graphics
+                </span>
+
+            </a>
+
+
+            <a href="#designs" class="category-card">
+
+                <div class="category-icon">
+                    🏷️
+                </div>
+
+                <h3>
+                    Sticker Designs
+                </h3>
+
+                <span>
+                    Labels & sticker graphics
+                </span>
+
+            </a>
+
+
+            <a href="#designs" class="category-card">
+
+                <div class="category-icon">
+                    👜
+                </div>
+
+                <h3>
+                    Bag Designs
+                </h3>
+
+                <span>
+                    Designs for bags & packaging
+                </span>
+
+            </a>
+
+
+            <a href="#designs" class="category-card">
+
+                <div class="category-icon">
+                    ✍️
+                </div>
+
+                <h3>
+                    Quotes & Typography
+                </h3>
+
+                <span>
+                    Creative typography designs
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- DIGITAL DESIGNS -->
+
+    <section id="designs">
+
+        <div class="designs-heading">
+
+            <h2>
+                Digital Designs
+            </h2>
+
+            <div class="design-count">
+
+                {{ products|length }}
+                {% if products|length == 1 %}
+                    Design
+                {% else %}
+                    Designs
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH / SORT -->
+
+        <div class="design-toolbar">
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="🔍 Search designs..."
+                >
+
+            </div>
+
+            <select
+                class="sort-select"
+                id="sortSelect"
+            >
+
+                <option value="newest">
+                    Sort by: Newest
+                </option>
+
+                <option value="low">
+                    Price: Low to High
+                </option>
+
+                <option value="high">
+                    Price: High to Low
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- PRODUCTS -->
+
+        <div class="product-grid" id="productGrid">
+
+            {% for product in products %}
+
+            <div
+                class="product-card"
+                data-name="{{ product.product_name|lower }}"
+                data-price="{{ product.price }}"
+                data-index="{{ loop.index }}"
+            >
+
+                <div class="product-image">
+
+                    {% if loop.first %}
+
+                    <div class="new-badge">
+                        NEW
+                    </div>
+
+                    {% endif %}
+
+
+                    {% if product.product_type == "FREE" %}
+
+                    <div class="free-badge">
+                        FREE
+                    </div>
+
+                    {% endif %}
+
+
+                    <img
+                        src="{{ get_product_image_url(product.preview_image) }}"
+                        alt="{{ product.product_name }}"
+                        loading="lazy"
+                    >
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <h3>
+                        {{ product.product_name }}
+                    </h3>
+
+                    <div class="product-format">
+                        Digital Download • SVG + PNG
+                    </div>
+
+
+                    {% if product.product_type == "FREE" %}
+
+                    <div class="price free-price">
+                        FREE
+                    </div>
+
+                    {% else %}
+
+                    <div class="price">
+                        ₱{{ "%.2f"|format(product.price) }}
+                    </div>
+
+                    {% endif %}
+
+
+                    <a
+                        href="{{ url_for('product', product_id=product.id) }}"
+                        class="view-button"
+                    >
+                        VIEW DETAILS
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- NO SEARCH RESULT -->
+
+        <div
+            id="noResults"
+            class="coming-soon"
+            style="display:none;"
+        >
+
+            <h3>
+                No designs found
+            </h3>
+
+            <p>
+                Try another search keyword.
+            </p>
+
+        </div>
+
+
+        {% if not products %}
+
+        <div class="coming-soon">
+
+            <h3>
+                More Designs Coming Soon
+            </h3>
+
+            <p>
+                We're preparing more premium designs
+                for your printing projects.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- TRUST -->
+
+    <section class="trust-section">
+
+        <div class="trust-item">
+
+            <div class="trust-icon">
+                🔒
+            </div>
+
+            <h3>
+                Secure Payment
+            </h3>
+
+            <p>
+                Safe and secure checkout.
+            </p>
+
+        </div>
+
+
+        <div class="trust-item">
+
+            <div class="trust-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Instant Download
+            </h3>
+
+            <p>
+                Get your digital files after payment.
+            </p>
+
+        </div>
+
+
+        <div class="trust-item">
+
+            <div class="trust-icon">
+                ♾️
+            </div>
+
+            <h3>
+                Commercial Use
+            </h3>
+
+            <p>
+                Ready for your creative projects.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRINTING PLACEHOLDER -->
+
+    <section id="printing" style="height:1px;"></section>
+
+    <!-- ABOUT PLACEHOLDER -->
+
+    <section id="about" style="height:1px;"></section>
+
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <strong>
+                CHOBRIMA PRINTS
+            </strong>
+
+            <p>
+                Digital Designs & Printing Services
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="#designs">
+                Digital Designs
+            </a>
+
+            <a href="/contact">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 Chobrima Prints.
+        All rights reserved.
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     SEARCH & SORT
+========================= -->
+
+<script>
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const sortSelect =
+        document.getElementById("sortSelect");
+
+    const productGrid =
+        document.getElementById("productGrid");
+
+    const noResults =
+        document.getElementById("noResults");
+
+
+    function updateProducts() {
+
+        const searchTerm =
+            searchInput.value.toLowerCase().trim();
+
+        const sortValue =
+            sortSelect.value;
+
+
+        let cards =
+            Array.from(
+                productGrid.querySelectorAll(".product-card")
+            );
+
+
+        /* SEARCH */
+
+        cards.forEach(function(card) {
+
+            const name =
+                card.dataset.name;
+
+            if (
+                name.includes(searchTerm)
+                || searchTerm === ""
+            ) {
+
+                card.style.display = "";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+
+        /* SORT */
+
+        if (sortValue === "low") {
+
+            cards.sort(function(a, b) {
+
+                return (
+                    parseFloat(a.dataset.price)
+                    -
+                    parseFloat(b.dataset.price)
+                );
+
+            });
+
+        }
+
+
+        if (sortValue === "high") {
+
+            cards.sort(function(a, b) {
+
+                return (
+                    parseFloat(b.dataset.price)
+                    -
+                    parseFloat(a.dataset.price)
+                );
+
+            });
+
+        }
+
+
+        if (sortValue === "newest") {
+
+            cards.sort(function(a, b) {
+
+                return (
+                    parseInt(a.dataset.index)
+                    -
+                    parseInt(b.dataset.index)
+                );
+
+            });
+
+        }
+
+
+        cards.forEach(function(card) {
+
+            productGrid.appendChild(card);
+
+        });
+
+
+        /* NO RESULTS */
+
+        const visibleCards =
+            cards.filter(function(card) {
+
+                return card.style.display !== "none";
+
+            });
+
+
+        if (
+            visibleCards.length === 0
+            && cards.length > 0
+        ) {
+
+            noResults.style.display = "block";
+
+        } else {
+
+            noResults.style.display = "none";
+
+        }
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        updateProducts
+    );
+
+
+    sortSelect.addEventListener(
+        "change",
+        updateProducts
+    );
+
+</script>
 
 </body>
 </html>

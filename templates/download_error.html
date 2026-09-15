@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ error_title }} | Chobrima Prints
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f6f8;
+
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #111;
+
+            color: white;
+
+            padding: 16px 25px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+
+            margin: auto;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+        }
+
+        .brand {
+            min-width: 220px;
+        }
+
+        .logo {
+            font-size: 25px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            color: #999;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+            letter-spacing: .7px;
+        }
+
+        .secure-header {
+            color: #aaa;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .error-container {
+            min-height:
+                calc(100vh - 70px);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 40px 20px 60px;
+        }
+
+
+        /* =========================
+           ERROR CARD
+        ========================= */
+
+        .error-card {
+            width: 100%;
+
+            max-width: 540px;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            border-radius: 16px;
+
+            padding: 38px 35px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 30px
+                rgba(0, 0, 0, .06);
+        }
+
+
+        /* =========================
+           ERROR ICON
+        ========================= */
+
+        .error-icon {
+            width: 68px;
+
+            height: 68px;
+
+            margin:
+                0 auto 18px;
+
+            border-radius: 50%;
+
+            background: #fef2f2;
+
+            color: #dc2626;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 34px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           TITLE
+        ========================= */
+
+        .error-card h1 {
+            margin: 0;
+
+            font-size: 27px;
+
+            font-weight: 800;
+        }
+
+        .error-message {
+            margin:
+                10px 0 6px;
+
+            color: #555;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        .error-detail {
+            margin: 0;
+
+            color: #888;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           NOTICE
+        ========================= */
+
+        .notice {
+            margin-top: 23px;
+
+            padding: 13px 15px;
+
+            background: #fff8e1;
+
+            border:
+                1px solid #f0d879;
+
+            border-radius: 9px;
+
+            color: #6b5700;
+
+            font-size: 10px;
+
+            line-height: 1.6;
+        }
+
+        .notice strong {
+            color: #4d4000;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .back-button {
+            display: block;
+
+            width: 100%;
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            background: #111;
+
+            color: white;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: .2s;
+        }
+
+        .back-button:hover {
+            background: #333;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =========================
+           SECURITY
+        ========================= */
+
+        .security {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 6px;
+
+            margin-top: 14px;
+        }
+
+        .security-item {
+            background: #f8f8f8;
+
+            border-radius: 6px;
+
+            padding: 9px 4px;
+
+            color: #777;
+
+            font-size: 9px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #111;
+
+            color: white;
+
+            padding: 25px 20px;
+
+            text-align: center;
+        }
+
+        footer strong {
+            font-size: 14px;
+        }
+
+        footer p {
+            margin:
+                5px 0 0;
+
+            color: #777;
+
+            font-size: 9px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 14px 18px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .tagline {
+                font-size: 9px;
+            }
+
+            .secure-header {
+                font-size: 9px;
+            }
+
+            .error-container {
+                padding:
+                    25px 13px 40px;
+
+                align-items:
+                    flex-start;
+            }
+
+            .error-card {
+                padding:
+                    25px 17px;
+
+                border-radius: 12px;
+            }
+
+            .error-card h1 {
+                font-size: 24px;
+            }
+
+            .error-icon {
+                width: 60px;
+
+                height: 60px;
+
+                font-size: 30px;
+            }
+
+            .security {
+                grid-template-columns:
+                    1fr;
+
+                gap: 5px;
+            }
+
+        }
+
+
+        @media (max-width: 380px) {
+
+            .secure-header {
+                display: none;
+            }
+
+            .error-card {
+                padding:
+                    21px 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="header-inner">
+
+        <div class="brand">
+
+            <div class="logo">
+                CHOBRIMA PRINTS
+            </div>
+
+            <div class="tagline">
+                DIGITAL DESIGNS FOR CREATORS
+            </div>
+
+        </div>
+
+
+        <div class="secure-header">
+            🔒 Secure Download
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     ERROR PAGE
+========================= -->
+
+<div class="error-container">
+
+
+    <div class="error-card">
+
+
+        <div class="error-icon">
+            {{ error_icon }}
+        </div>
+
+
+        <h1>
+            {{ error_title }}
+        </h1>
+
+
+        <p class="error-message">
+            {{ error_message }}
+        </p>
+
+
+        <p class="error-detail">
+            {{ error_detail }}
+        </p>
+
+
+
+        <div class="notice">
+
+            🔒
+            <strong>SECURE DOWNLOAD</strong>
+
+            <br>
+
+            Download links are protected
+            to help keep digital products secure.
+
+        </div>
+
+
+
+        <a
+            href="/"
+            class="back-button"
+        >
+            ← BACK TO STORE
+        </a>
+
+
+
+        <div class="security">
+
+            <div class="security-item">
+                🔒 Protected
+            </div>
+
+            <div class="security-item">
+                📁 Digital Product
+            </div>
+
+            <div class="security-item">
+                🛡️ Secure Access
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <strong>
+        CHOBRIMA PRINTS
+    </strong>
+
+    <p>
+        Digital Designs & Printing Services
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

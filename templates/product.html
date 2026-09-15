@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ product.product_name }} | Chobrima Prints
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #111;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #111;
+            color: white;
+            padding: 16px 25px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            min-width: 220px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            color: #999;
+            font-size: 11px;
+            margin-top: 3px;
+            letter-spacing: .7px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        nav a {
+            color: #ddd;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-button {
+            color: white;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            font-size: 17px;
+        }
+
+        .icon-button:hover {
+            background: #222;
+        }
+
+        .cart-wrapper {
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #1683ff;
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =========================
+           BREADCRUMB
+        ========================= */
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 22px auto 15px;
+            padding: 0 20px;
+            color: #888;
+            font-size: 12px;
+        }
+
+        .breadcrumb a {
+            color: #555;
+        }
+
+        .breadcrumb a:hover {
+            color: #1683ff;
+        }
+
+
+        /* =========================
+           PRODUCT CONTAINER
+        ========================= */
+
+        .product-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px 55px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 14px;
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 35px;
+        }
+
+
+        /* =========================
+           GALLERY
+        ========================= */
+
+        .gallery {
+            width: 100%;
+        }
+
+        .image-area {
+            background: #f7f7f7;
+            border-radius: 12px;
+            height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            cursor: zoom-in;
+            overflow: hidden;
+        }
+
+        .image-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .thumbnails {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 70px;
+            height: 70px;
+            padding: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .thumbnail.active {
+            border-color: #1683ff;
+        }
+
+        .thumbnail:hover {
+            border-color: #1683ff;
+        }
+
+
+        /* =========================
+           DETAILS
+        ========================= */
+
+        .details {
+            padding: 8px 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eaf3ff;
+            color: #1677ff;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .free-badge {
+            background: #111;
+            color: white;
+        }
+
+        .details h1 {
+            font-size: 36px;
+            line-height: 1.12;
+            margin: 0 0 14px;
+            letter-spacing: -.5px;
+        }
+
+        .rating {
+            color: #f5a400;
+            font-size: 16px;
+            margin-bottom: 18px;
+        }
+
+        .rating span {
+            color: #777;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .description {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 22px 0;
+        }
+
+
+        /* =========================
+           FILES
+        ========================= */
+
+        .files h3 {
+            margin: 0 0 12px;
+            font-size: 15px;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .file-box {
+            border: 1px solid #e5e5e5;
+            border-radius: 9px;
+            padding: 13px;
+        }
+
+        .file-icon {
+            font-size: 22px;
+            margin-bottom: 7px;
+        }
+
+        .file-title {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .file-description {
+            color: #888;
+            font-size: 11px;
+            line-height: 1.5;
+            margin-top: 4px;
+        }
+
+
+        /* =========================
+           FEATURES
+        ========================= */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .feature {
+            color: #777;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .feature strong {
+            display: block;
+            color: #222;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+
+        /* =========================
+           PRICE
+        ========================= */
+
+        .price {
+            font-size: 34px;
+            font-weight: bold;
+            margin: 22px 0;
+        }
+
+        .free-price {
+            color: #1683ff;
+        }
+
+
+        /* =========================
+           BUY BUTTON
+        ========================= */
+
+        .buy-button {
+            display: block;
+            width: 100%;
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: .2s;
+        }
+
+        .buy-button:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           TRUST
+        ========================= */
+
+        .trust {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .trust div {
+            color: #777;
+            font-size: 10px;
+            text-align: center;
+            padding: 9px 4px;
+            background: #f8f8f8;
+            border-radius: 6px;
+        }
+
+
+        /* =========================
+           BACK
+        ========================= */
+
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .back-link:hover {
+            color: #1683ff;
+        }
+
+
+        /* =========================
+           IMAGE ZOOM
+        ========================= */
+
+        .zoom-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .93);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 25px;
+        }
+
+        .zoom-modal.show {
+            display: flex;
+        }
+
+        .zoom-modal img {
+            max-width: 92%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .zoom-close {
+            position: absolute;
+            top: 18px;
+            right: 22px;
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: white;
+            color: #111;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .zoom-close:hover {
+            background: #1683ff;
+            color: white;
+        }
+
+
+        /* =========================
+           CUSTOMER FEEDBACK
+        ========================= */
+
+        .comments-section {
+            width: calc(100% - 40px);
+            max-width: 850px;
+            margin: 10px auto 55px;
+            padding: 32px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, .05);
+            text-align: center;
+        }
+
+        .comments-section h2 {
+            margin: 0 0 7px;
+            font-size: 25px;
+            color: #111827;
+        }
+
+        .comments-subtitle {
+            margin: 0 0 25px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           COMMENT FORM
+        ========================= */
+
+        .comment-form {
+            width: 100%;
+            max-width: 620px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .comment-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .comment-field label {
+            color: #374151;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .comment-field input,
+        .comment-field textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            color: #111827;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .comment-field input:focus,
+        .comment-field textarea:focus {
+            border-color: #111827;
+        }
+
+        .comment-field textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+
+        /* =========================
+           TURNSTILE
+        ========================= */
+
+        .turnstile-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 2px 0;
+        }
+
+
+        /* =========================
+           POST BUTTON
+        ========================= */
+
+        .comment-submit {
+            width: 100%;
+            max-width: 280px;
+            margin: auto;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #111827;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .comment-submit:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           COMMENTS LIST
+        ========================= */
+
+        .comments-list {
+            width: 100%;
+            max-width: 620px;
+            margin: 32px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .comment-card {
+            padding: 15px 17px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .comment-header strong {
+            font-size: 13px;
+            color: #111827;
+        }
+
+        .comment-text {
+            margin: 8px 0 7px;
+            color: #374151;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .comment-date {
+            color: #9ca3af;
+            font-size: 10px;
+        }
+
+        .no-comments {
+            padding: 22px;
+            text-align: center;
+            color: #6b7280;
+            background: #f9fafb;
+            border: 1px dashed #d1d5db;
+            border-radius: 9px;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #111;
+            color: white;
+            padding: 30px 20px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-brand strong {
+            font-size: 16px;
+        }
+
+        .footer-brand p {
+            margin: 5px 0 0;
+            color: #888;
+            font-size: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px;
+        }
+
+        .footer-links a {
+            color: #999;
+            font-size: 10px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding-top: 17px;
+            border-top: 1px solid #292929;
+            color: #666;
+            font-size: 9px;
+            text-align: center;
+        }
+
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            nav {
+                display: none;
+            }
+
+            .product-card {
+                grid-template-columns: 1fr;
+            }
+
+            .image-area {
+                height: 450px;
+            }
+
+            .details h1 {
+                font-size: 32px;
+            }
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 14px 18px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .tagline {
+                font-size: 9px;
+            }
+
+            .header-inner {
+                gap: 10px;
+            }
+
+            .brand {
+                min-width: 0;
+            }
+
+            .product-container {
+                padding: 0 12px 40px;
+            }
+
+            .breadcrumb {
+                margin: 16px auto 12px;
+                padding: 0 12px;
+                font-size: 11px;
+            }
+
+            .product-card {
+                padding: 14px;
+                gap: 22px;
+                border-radius: 12px;
+            }
+
+            .image-area {
+                height: 330px;
+                padding: 15px;
+            }
+
+            .thumbnail {
+                width: 58px;
+                height: 58px;
+            }
+
+            .details {
+                padding: 0;
+            }
+
+            .details h1 {
+                font-size: 27px;
+            }
+
+            .description {
+                font-size: 13px;
+            }
+
+            .file-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .price {
+                font-size: 30px;
+            }
+
+            .buy-button {
+                font-size: 15px;
+                padding: 14px;
+            }
+
+            .trust {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .trust div {
+                padding: 8px;
+            }
+
+            .comments-section {
+                width: calc(100% - 24px);
+                margin: 5px auto 35px;
+                padding: 25px 15px;
+                border-radius: 12px;
+            }
+
+            .comments-section h2 {
+                font-size: 22px;
+            }
+
+            .comments-subtitle {
+                font-size: 12px;
+            }
+
+            .comment-submit {
+                max-width: 100%;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+
+        @media (max-width: 380px) {
+
+            .file-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .image-area {
+                height: 280px;
+            }
+
+            .details h1 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="header-inner">
+
+        <div class="brand">
+
+            <div class="logo">
+                CHOBRIMA PRINTS
+            </div>
+
+            <div class="tagline">
+                DIGITAL DESIGNS FOR CREATORS
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/#designs">
+                Digital Designs
+            </a>
+
+            <a href="/#printing">
+                Printing Services
+            </a>
+
+            <a href="/#about">
+                About
+            </a>
+
+            <a href="/contact">
+                Contact
+            </a>
+
+        </nav>
+
+
+        <div class="header-actions">
+
+            <a
+                href="/#designs"
+                class="icon-button"
+                title="Search"
+            >
+                🔍
+            </a>
+
+            <a
+                href="#"
+                class="icon-button cart-wrapper"
+                title="Cart"
+            >
+                🛒
+
+                <span class="cart-badge">
+                    0
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     BREADCRUMB
+========================= -->
+
+<div class="breadcrumb">
+
+    <a href="/">
+        Home
+    </a>
+
+    &nbsp;›&nbsp;
+
+    <a href="/#designs">
+        Digital Designs
+    </a>
+
+    &nbsp;›&nbsp;
+
+    {{ product.product_name }}
+
+</div>
+
+
+<!-- =========================
+     PRODUCT
+========================= -->
+
+<main class="product-container">
+
+    <div class="product-card">
+
+
+        <!-- GALLERY -->
+
+        <div class="gallery">
+
+
+            <div
+                class="image-area"
+                onclick="openZoom()"
+            >
+
+                <img
+                    id="mainProductImage"
+                    src="{{ get_product_image_url(product.preview_image) }}"
+                    alt="{{ product.product_name }}"
+                >
+
+            </div>
+
+
+            <!-- THUMBNAILS -->
+
+            <div class="thumbnails">
+
+
+                <button
+                    type="button"
+                    class="thumbnail active"
+                    onclick="changeImage(
+                        this,
+                        '{{ get_product_image_url(product.preview_image) }}'
+                    )"
+                >
+
+                    <img
+                        src="{{ get_product_image_url(product.preview_image) }}"
+                        alt="{{ product.product_name }}"
+                    >
+
+                </button>
+
+
+                {% if product.thumbnail_2 %}
+
+                <button
+                    type="button"
+                    class="thumbnail"
+                    onclick="changeImage(
+                        this,
+                        '{{ get_product_image_url(product.thumbnail_2) }}'
+                    )"
+                >
+
+                    <img
+                        src="{{ get_product_image_url(product.thumbnail_2) }}"
+                        alt="Thumbnail 2"
+                    >
+
+                </button>
+
+                {% endif %}
+
+
+                {% if product.thumbnail_3 %}
+
+                <button
+                    type="button"
+                    class="thumbnail"
+                    onclick="changeImage(
+                        this,
+                        '{{ get_product_image_url(product.thumbnail_3) }}'
+                    )"
+                >
+
+                    <img
+                        src="{{ get_product_image_url(product.thumbnail_3) }}"
+                        alt="Thumbnail 3"
+                    >
+
+                </button>
+
+                {% endif %}
+
+
+                {% if product.thumbnail_4 %}
+
+                <button
+                    type="button"
+                    class="thumbnail"
+                    onclick="changeImage(
+                        this,
+                        '{{ get_product_image_url(product.thumbnail_4) }}'
+                    )"
+                >
+
+                    <img
+                        src="{{ get_product_image_url(product.thumbnail_4) }}"
+                        alt="Thumbnail 4"
+                    >
+
+                </button>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- DETAILS -->
+
+        <div class="details">
+
+
+            {% if product.product_type == "FREE" %}
+
+            <div class="badge free-badge">
+                🆓 FREE DIGITAL DOWNLOAD
+            </div>
+
+            {% else %}
+
+            <div class="badge">
+                DIGITAL DOWNLOAD
+            </div>
+
+            {% endif %}
+
+
+            <h1>
+                {{ product.product_name }}
+            </h1>
+
+
+            <div class="rating">
+                ★★★★★
+                <span>
+                    5.0
+                </span>
+            </div>
+
+
+            <p class="description">
+                {{ product.description }}
+            </p>
+
+
+            <hr>
+
+
+            <!-- INCLUDED FILES -->
+
+            <div class="files">
+
+                <h3>
+                    Included Files
+                </h3>
+
+
+                <div class="file-grid">
+
+
+                    <div class="file-box">
+
+                        <div class="file-icon">
+                            📄
+                        </div>
+
+                        <div class="file-title">
+                            SVG File
+                        </div>
+
+                        <div class="file-description">
+                            Scalable vector file
+                            <br>
+                            High quality
+                        </div>
+
+                    </div>
+
+
+                    <div class="file-box">
+
+                        <div class="file-icon">
+                            🖼️
+                        </div>
+
+                        <div class="file-title">
+                            PNG File
+                        </div>
+
+                        <div class="file-description">
+                            High resolution
+                            <br>
+                            Transparent background
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <!-- FEATURES -->
+
+            <div class="features">
+
+
+                <div class="feature">
+
+                    <strong>
+                        ⚡ Instant Download
+                    </strong>
+
+                    Get your files immediately
+                    after purchase.
+
+                </div>
+
+
+                <div class="feature">
+
+                    <strong>
+                        🛡️ Commercial Use
+                    </strong>
+
+                    Use for personal or
+                    business projects.
+
+                </div>
+
+
+                <div class="feature">
+
+                    <strong>
+                        ♾️ High Quality
+                    </strong>
+
+                    Print-ready digital files.
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <!-- PRICE -->
+
+            {% if product.product_type == "FREE" %}
+
+            <div class="price free-price">
+                FREE
+            </div>
+
+            {% else %}
+
+            <div class="price">
+                ₱{{ "%.2f"|format(product.price) }}
+            </div>
+
+            {% endif %}
+
+
+            <!-- ACTION -->
+
+            {% if product.product_type == "FREE" %}
+
+            <a
+                href="{{ url_for('free_download', product_id=product.id) }}"
+                class="buy-button"
+            >
+                🆓 DOWNLOAD FREE
+            </a>
+
+            {% else %}
+
+            <a
+                href="{{ url_for('place_order', product_id=product.id) }}"
+                class="buy-button"
+                style="margin-bottom:10px;"
+            >
+                🛒 PLACE ORDER
+            </a>
+
+            <a
+                href="{{ url_for('checkout', product_id=product.id) }}"
+                class="buy-button"
+            >
+                💰 BUY NOW
+            </a>
+
+            {% endif %}
+
+
+            <!-- TRUST -->
+
+            <div class="trust">
+
+                <div>
+                    🔒 Secure Purchase
+                </div>
+
+                <div>
+                    📥 Instant Access
+                </div>
+
+                <div>
+                    ✓ Safe & Secure
+                </div>
+
+            </div>
+
+
+            <a
+                href="/"
+                class="back-link"
+            >
+                ← Back to Digital Designs
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =========================
+     IMAGE ZOOM
+========================= -->
+
+<div
+    id="zoomModal"
+    class="zoom-modal"
+    onclick="closeZoom()"
+>
+
+    <button
+        type="button"
+        class="zoom-close"
+        onclick="closeZoom(event)"
+    >
+        ×
+    </button>
+
+
+    <img
+        id="zoomImage"
+        src=""
+        alt="Product Preview"
+    >
+
+</div>
+
+
+<!-- =========================
+     CUSTOMER FEEDBACK
+========================= -->
+
+<section class="comments-section">
+
+
+    <h2>
+        💬 Customer Feedback
+    </h2>
+
+
+    <p class="comments-subtitle">
+        Share your thoughts about this design.
+    </p>
+
+
+    <form
+        action="{{ url_for('add_product_comment', product_id=product.id) }}"
+        method="POST"
+        class="comment-form"
+    >
+
+
+        <div class="comment-field">
+
+            <label for="customer_name">
+                Your Name
+            </label>
+
+            <input
+                type="text"
+                id="customer_name"
+                name="customer_name"
+                maxlength="100"
+                required
+                placeholder="Enter your name"
+            >
+
+        </div>
+
+
+        <div class="comment-field">
+
+            <label for="comment">
+                Your Comment
+            </label>
+
+            <textarea
+                id="comment"
+                name="comment"
+                maxlength="1000"
+                required
+                placeholder="Write your comment here..."
+                rows="5"
+            ></textarea>
+
+        </div>
+
+
+        <!-- CLOUDFLARE TURNSTILE -->
+
+        <div class="turnstile-wrapper">
+
+            <div
+                class="cf-turnstile"
+                data-sitekey="{{ turnstile_site_key }}"
+            ></div>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="comment-submit"
+        >
+            💬 POST COMMENT
+        </button>
+
+    </form>
+
+
+    <!-- COMMENTS -->
+
+    <div class="comments-list">
+
+        {% if comments %}
+
+            {% for item in comments %}
+
+            <div class="comment-card">
+
+                <div class="comment-header">
+
+                    <strong>
+                        {{ item.customer_name }}
+                    </strong>
+
+
+                    {% if item.country_name %}
+
+                    <span style="
+                        margin-left: 8px;
+                        color: #6b7280;
+                        font-size: 11px;
+                        font-weight: normal;
+                    ">
+
+                        {% if item.country_code == "PH" %}
+                            🇵🇭
+                        {% elif item.country_code == "SA" %}
+                            🇸🇦
+                        {% elif item.country_code == "US" %}
+                            🇺🇸
+                        {% elif item.country_code == "GB" %}
+                            🇬🇧
+                        {% elif item.country_code == "AE" %}
+                            🇦🇪
+                        {% elif item.country_code == "CA" %}
+                            🇨🇦
+                        {% elif item.country_code == "AU" %}
+                            🇦🇺
+                        {% else %}
+                            🌍
+                        {% endif %}
+
+                        {{ item.country_name }}
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <p class="comment-text">
+                    {{ item.comment }}
+                </p>
+
+
+                <small class="comment-date">
+
+                    {{ item.created_at.strftime('%B %d, %Y') }}
+
+                </small>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-comments">
+
+                No customer feedback yet.
+                Be the first to leave a comment!
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <strong>
+                CHOBRIMA PRINTS
+            </strong>
+
+            <p>
+                Digital Designs & Printing Services
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/#designs">
+                Digital Designs
+            </a>
+
+            <a href="/contact">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 Chobrima Prints.
+        All rights reserved.
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     CLOUDFLARE TURNSTILE
+========================= -->
+
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+></script>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    function openZoom() {
+
+        const mainImage =
+            document.getElementById(
+                "mainProductImage"
+            );
+
+        const zoomImage =
+            document.getElementById(
+                "zoomImage"
+            );
+
+        zoomImage.src =
+            mainImage.src;
+
+        document
+            .getElementById("zoomModal")
+            .classList
+            .add("show");
+
+    }
+
+
+    function closeZoom(event) {
+
+        if (event) {
+            event.stopPropagation();
+        }
+
+        document
+            .getElementById("zoomModal")
+            .classList
+            .remove("show");
+
+    }
+
+
+    function changeImage(
+        button,
+        imageUrl
+    ) {
+
+        const mainImage =
+            document.getElementById(
+                "mainProductImage"
+            );
+
+        mainImage.src =
+            imageUrl;
+
+
+        document
+            .querySelectorAll(".thumbnail")
+            .forEach(
+                function(item) {
+
+                    item.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+
+        button.classList.add("active");
+
+    }
+
+
+    /* ESC closes zoom */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Escape") {
+
+                closeZoom();
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

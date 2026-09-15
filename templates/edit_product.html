@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Product - Chobrima Prints</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #111;
+        }
+
+        .current-image {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .current-image img {
+            width: 180px;
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .file-note {
+            font-size: 13px;
+            color: #777;
+            margin-top: 6px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .active {
+            background: #dff7e5;
+            color: #16803c;
+        }
+
+        .hidden {
+            background: #eee;
+            color: #666;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        button,
+        .cancel {
+            padding: 13px 22px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        button {
+            border: none;
+            background: #111;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        .cancel {
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+        }
+
+        .cancel:hover {
+            background: #f5f5f5;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #b00020;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 15px auto;
+                padding: 10px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button,
+            .cancel {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>✏️ Edit Product</h1>
+
+        <div class="subtitle">
+            Update your product information, preview image, or digital ZIP file.
+        </div>
+
+        {% if product.active %}
+            <div class="status active">
+                ● ACTIVE
+            </div>
+        {% else %}
+            <div class="status hidden">
+                ● HIDDEN
+            </div>
+        {% endif %}
+
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <div class="section-title">
+                Product Information
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="product_name">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="product_name"
+                    name="product_name"
+                    value="{{ product.product_name }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                >{{ product.description or "" }}</textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="category">
+                    Category
+                </label>
+
+                <input
+                    type="text"
+                    id="category"
+                    name="category"
+                    value="{{ product.category }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="price">
+                    Price
+                </label>
+
+                <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    value="{{ product.price }}"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+                <div class="form-group">
+
+    <label for="product_type">
+        Product Type
+    </label>
+
+    <select
+        id="product_type"
+        name="product_type"
+        required
+        style="
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            background: white;
+        "
+    >
+
+        <option
+            value="PAID"
+            {% if product.product_type == "PAID" %}
+                selected
+            {% endif %}
+        >
+            💰 PAID
+        </option>
+
+        <option
+            value="FREE"
+            {% if product.product_type == "FREE" %}
+                selected
+            {% endif %}
+        >
+            🆓 FREE
+        </option>
+
+    </select>
+
+</div>
+
+            </div>
+
+
+            <div class="section-title">
+    Product Images
+</div>
+
+
+<!-- CURRENT MAIN PREVIEW -->
+
+<div class="current-image">
+
+    <p><strong>Current Preview:</strong></p>
+
+    {% if product.preview_image %}
+
+        <img
+            src="{{ get_product_image_url(product.preview_image) }}"
+            alt="{{ product.product_name }}"
+        >
+
+    {% else %}
+
+        <p>No preview image.</p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- REPLACE MAIN PREVIEW -->
+
+<div class="form-group">
+
+    <label for="preview_image">
+        Replace Preview Image
+    </label>
+
+    <input
+        type="file"
+        id="preview_image"
+        name="preview_image"
+        accept=".jpg,.jpeg,.png,.webp"
+    >
+
+    <div class="file-note">
+        Leave empty if you want to keep the current image.
+        JPG, PNG or WebP only.
+    </div>
+
+</div>
+
+
+<!-- THUMBNAIL 2 -->
+
+<div class="form-group">
+
+    <label for="thumbnail_2">
+        Thumbnail 2
+    </label>
+
+    {% if product.thumbnail_2 %}
+
+        <div class="current-image">
+
+            <img
+                src="{{ get_product_image_url(product.thumbnail_2) }}"
+                alt="{{ product.product_name }} Thumbnail 2"
+            >
+
+        </div>
+
+    {% endif %}
+
+    <input
+        type="file"
+        id="thumbnail_2"
+        name="thumbnail_2"
+        accept=".jpg,.jpeg,.png,.webp"
+    >
+
+    <div class="file-note">
+        Optional. Upload a new image to replace the current Thumbnail 2.
+        Leave empty to keep the current image.
+    </div>
+
+</div>
+
+
+<!-- THUMBNAIL 3 -->
+
+<div class="form-group">
+
+    <label for="thumbnail_3">
+        Thumbnail 3
+    </label>
+
+    {% if product.thumbnail_3 %}
+
+        <div class="current-image">
+
+            <img
+                src="{{ get_product_image_url(product.thumbnail_3) }}"
+                alt="{{ product.product_name }} Thumbnail 3"
+            >
+
+        </div>
+
+    {% endif %}
+
+    <input
+        type="file"
+        id="thumbnail_3"
+        name="thumbnail_3"
+        accept=".jpg,.jpeg,.png,.webp"
+    >
+
+    <div class="file-note">
+        Optional. Upload a new image to replace the current Thumbnail 3.
+        Leave empty to keep the current image.
+    </div>
+
+</div>
+
+
+<!-- THUMBNAIL 4 -->
+
+<div class="form-group">
+
+    <label for="thumbnail_4">
+        Thumbnail 4
+    </label>
+
+    {% if product.thumbnail_4 %}
+
+        <div class="current-image">
+
+            <img
+                src="{{ get_product_image_url(product.thumbnail_4) }}"
+                alt="{{ product.product_name }} Thumbnail 4"
+            >
+
+        </div>
+
+    {% endif %}
+
+    <input
+        type="file"
+        id="thumbnail_4"
+        name="thumbnail_4"
+        accept=".jpg,.jpeg,.png,.webp"
+    >
+
+    <div class="file-note">
+        Optional. Upload a new image to replace the current Thumbnail 4.
+        Leave empty to keep the current image.
+    </div>
+
+</div>
+
+
+            <div class="section-title">
+                Digital Product
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Current ZIP File
+                </label>
+
+                <input
+                    type="text"
+                    value="{{ product.product_file or 'No ZIP file' }}"
+                    readonly
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="product_file">
+                    Replace Digital ZIP
+                </label>
+
+                <input
+                    type="file"
+                    id="product_file"
+                    name="product_file"
+                    accept=".zip"
+                >
+
+                <div class="file-note">
+                    Leave empty if you want to keep the current ZIP file.
+                    ZIP files only.
+                </div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button type="submit">
+                    💾 Save Changes
+                </button>
+
+                <a
+                    href="{{ url_for('admin') }}"
+                    class="cancel"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

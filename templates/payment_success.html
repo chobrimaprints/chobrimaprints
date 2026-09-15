@@ -11,7 +11,7 @@
     >
 
     <title>
-        Payment | Chobrima Prints
+        Payment Successful | Chobrima Prints
     </title>
 
 
@@ -46,6 +46,7 @@
         .header-inner {
             max-width: 1200px;
             margin: auto;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -75,48 +76,64 @@
 
 
         /* =========================
-           PAGE
+           MAIN
         ========================= */
 
-        .payment-container {
+        .success-container {
             min-height: calc(100vh - 70px);
+
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 35px 20px 55px;
+
+            padding: 40px 20px 60px;
         }
 
 
         /* =========================
-           PAYMENT CARD
+           SUCCESS CARD
         ========================= */
 
-        .payment-box {
+        .success-card {
             width: 100%;
-            max-width: 500px;
+            max-width: 560px;
+
             background: white;
+
             border: 1px solid #eee;
-            border-radius: 14px;
-            padding: 30px;
+            border-radius: 16px;
+
+            padding: 35px;
+
             text-align: center;
-            box-shadow: 0 7px 25px rgba(0, 0, 0, .06);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, .06);
         }
 
 
         /* =========================
-           ICON
+           SUCCESS ICON
         ========================= */
 
-        .payment-icon {
-            width: 58px;
-            height: 58px;
-            margin: 0 auto 15px;
+        .success-icon {
+            width: 68px;
+            height: 68px;
+
+            margin: 0 auto 17px;
+
             border-radius: 50%;
-            background: #f1f1f1;
+
+            background: #ecfdf3;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+
+            color: #15803d;
+
+            font-size: 34px;
+            font-weight: bold;
         }
 
 
@@ -124,15 +141,19 @@
            TITLE
         ========================= */
 
-        .payment-box h1 {
+        .success-card h1 {
             margin: 0;
-            font-size: 26px;
+
+            font-size: 28px;
+            font-weight: 800;
         }
 
-        .payment-subtitle {
-            margin: 7px 0 25px;
+        .thank-you {
+            margin: 8px 0 25px;
+
             color: #777;
-            font-size: 12px;
+
+            font-size: 13px;
         }
 
 
@@ -142,99 +163,155 @@
 
         .order-summary {
             background: #f8f8f8;
+
             border: 1px solid #eee;
             border-radius: 10px;
-            padding: 16px;
+
+            padding: 17px;
+
             text-align: left;
-            margin-bottom: 18px;
+
+            margin-bottom: 20px;
+        }
+
+        .summary-title {
+            color: #888;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .6px;
+
+            margin-bottom: 12px;
+        }
+
+        .summary-row {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 15px;
+
+            padding: 8px 0;
+
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+
+            padding-bottom: 0;
         }
 
         .summary-label {
-            color: #888;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: .5px;
-            margin-bottom: 6px;
-        }
-
-        .product-name {
-            color: #111827;
-            font-size: 15px;
-            font-weight: bold;
-            line-height: 1.4;
-        }
-
-        .product-type {
             color: #777;
+
             font-size: 11px;
-            margin-top: 5px;
         }
 
+        .summary-value {
+            color: #111827;
 
-        /* =========================
-           TOTAL
-        ========================= */
-
-        .total-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .total-label {
-            color: #666;
             font-size: 12px;
+
+            font-weight: 600;
+
+            text-align: right;
+
+            word-break: break-word;
         }
 
-        .price {
-            color: #111;
-            font-size: 27px;
-            font-weight: bold;
+        .status-paid {
+            color: #15803d;
         }
 
 
         /* =========================
-           TEST NOTICE
+           DOWNLOAD
         ========================= */
 
-        .test-notice {
-            margin: 20px 0;
-            padding: 14px;
-            background: #fff8e1;
-            border: 1px solid #f0d879;
-            border-radius: 9px;
-            color: #6b5700;
-            font-size: 11px;
+        .download-section {
+            margin-top: 25px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #eee;
+        }
+
+        .download-section h2 {
+            margin: 0 0 7px;
+
+            font-size: 19px;
+        }
+
+        .download-subtitle {
+            margin: 0 0 17px;
+
+            color: #777;
+
+            font-size: 12px;
+
             line-height: 1.6;
         }
 
-        .test-notice strong {
-            color: #4d4000;
+
+        /* =========================
+           DOWNLOAD BUTTON
+        ========================= */
+
+        .download-button {
+            display: block;
+
+            width: 100%;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            background: #111;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: .2s;
+        }
+
+        .download-button:hover {
+            background: #333;
+
+            transform: translateY(-1px);
         }
 
 
         /* =========================
-           PAYMENT BUTTON
+           ONE TIME NOTICE
         ========================= */
 
-        .payment-button {
-            width: 100%;
-            padding: 15px;
-            border: none;
+        .one-time-notice {
+            margin-top: 14px;
+
+            padding: 12px;
+
+            background: #fff8e1;
+
+            border: 1px solid #f0d879;
+
             border-radius: 8px;
-            background: #111;
-            color: white;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: .2s;
+
+            color: #6b5700;
+
+            font-size: 10px;
+
+            line-height: 1.6;
         }
 
-        .payment-button:hover {
-            background: #333;
-            transform: translateY(-1px);
+        .one-time-notice strong {
+            color: #4d4000;
         }
 
 
@@ -244,33 +321,43 @@
 
         .security {
             display: grid;
+
             grid-template-columns: repeat(3, 1fr);
+
             gap: 6px;
-            margin-top: 14px;
+
+            margin-top: 17px;
         }
 
         .security-item {
             background: #f8f8f8;
+
             border-radius: 6px;
-            padding: 8px 4px;
+
+            padding: 9px 4px;
+
             color: #777;
+
             font-size: 9px;
         }
 
 
         /* =========================
-           BACK
+           BACK LINK
         ========================= */
 
         .back-link {
-            display: block;
-            margin-top: 17px;
+            display: inline-block;
+
+            margin-top: 20px;
+
             color: #666;
+
             font-size: 11px;
         }
 
         .back-link:hover {
-            color: #1683ff;
+            color: #111;
         }
 
 
@@ -280,8 +367,11 @@
 
         footer {
             background: #111;
+
             color: white;
+
             padding: 25px 20px;
+
             text-align: center;
         }
 
@@ -291,7 +381,9 @@
 
         footer p {
             margin: 5px 0 0;
+
             color: #777;
+
             font-size: 9px;
         }
 
@@ -318,26 +410,32 @@
                 font-size: 9px;
             }
 
-            .payment-container {
+            .success-container {
                 padding: 25px 13px 40px;
+
                 align-items: flex-start;
             }
 
-            .payment-box {
-                padding: 23px 17px;
+            .success-card {
+                padding: 24px 17px;
+
                 border-radius: 12px;
             }
 
-            .payment-box h1 {
+            .success-card h1 {
                 font-size: 24px;
             }
 
-            .price {
-                font-size: 25px;
+            .success-icon {
+                width: 60px;
+                height: 60px;
+
+                font-size: 30px;
             }
 
             .security {
                 grid-template-columns: 1fr;
+
                 gap: 5px;
             }
 
@@ -350,8 +448,8 @@
                 display: none;
             }
 
-            .payment-box {
-                padding: 20px 14px;
+            .success-card {
+                padding: 21px 14px;
             }
 
         }
@@ -394,119 +492,137 @@
 </header>
 
 
+
 <!-- =========================
-     PAYMENT
+     SUCCESS PAGE
 ========================= -->
 
-<div class="payment-container">
+<div class="success-container">
 
 
-    <div class="payment-box">
+    <div class="success-card">
 
 
-        <div class="payment-icon">
-            💳
+        <!-- SUCCESS -->
+
+        <div class="success-icon">
+            ✓
         </div>
 
 
         <h1>
-            Payment
+            Payment Successful!
         </h1>
 
 
-        <p class="payment-subtitle">
-            Review your order before completing payment.
+        <p class="thank-you">
+            Thank you, {{ order.customer_name }}!
+            Your order has been confirmed.
         </p>
+
 
 
         <!-- ORDER SUMMARY -->
 
         <div class="order-summary">
 
-            <div class="summary-label">
-                Your Order
+            <div class="summary-title">
+                Order Summary
             </div>
 
-            <div class="product-name">
-                {{ product.product_name }}
+
+            <div class="summary-row">
+
+                <div class="summary-label">
+                    Order ID
+                </div>
+
+                <div class="summary-value">
+                    {{ order.order_id }}
+                </div>
+
             </div>
 
-            <div class="product-type">
-                📁 Digital Download
+
+            <div class="summary-row">
+
+                <div class="summary-label">
+                    Product
+                </div>
+
+                <div class="summary-value">
+                    {{ order.product_name }}
+                </div>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <div class="summary-label">
+                    Amount Paid
+                </div>
+
+                <div class="summary-value">
+                    ₱{{ "%.2f"|format(order.amount) }}
+                </div>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <div class="summary-label">
+                    Status
+                </div>
+
+                <div class="summary-value status-paid">
+                    ✓ {{ order.status }}
+                </div>
+
             </div>
 
         </div>
 
 
-        <!-- TOTAL -->
 
-        <div class="total-box">
+        <!-- DOWNLOAD -->
 
-            <div class="total-label">
-                Total Amount
-            </div>
+        <div class="download-section">
 
-            <div class="price">
-                ₱{{ "%.2f"|format(product.price) }}
+            <h2>
+                📥 Your Digital Product
+            </h2>
+
+
+            <p class="download-subtitle">
+                Your payment has been completed.
+                You can now securely download your digital design.
+            </p>
+
+
+            <a
+                href="{{ download_link }}"
+                class="download-button"
+            >
+                📥 DOWNLOAD PRODUCT
+            </a>
+
+
+            <div class="one-time-notice">
+
+                ⚠️
+                <strong>ONE-TIME DOWNLOAD</strong>
+
+                <br>
+
+                This secure download link can only be used once.
+                Please save your file after downloading.
+
             </div>
 
         </div>
 
-
-        <!-- TEST NOTICE -->
-
-        <div class="test-notice">
-
-            ⚠️ <strong>TEST PAYMENT MODE</strong>
-
-            <br>
-
-            This is currently a test transaction.
-            No real payment will be charged.
-
-        </div>
-
-
-        <!-- PAYMENT FORM -->
-
-        <form
-            action="{{ url_for('payment_success') }}"
-            method="POST"
-        >
-
-
-            <input
-                type="hidden"
-                name="name"
-                value="{{ name }}"
-            >
-
-
-            <input
-                type="hidden"
-                name="email"
-                value="{{ email }}"
-            >
-
-
-            <input
-                type="hidden"
-                name="product_id"
-                value="{{ product.id }}"
-            >
-
-
-            <button
-                type="submit"
-                class="payment-button"
-            >
-
-                PAY ₱{{ "%.2f"|format(product.price) }}
-                — TEST PAYMENT
-
-            </button>
-
-        </form>
 
 
         <!-- SECURITY -->
@@ -514,30 +630,35 @@
         <div class="security">
 
             <div class="security-item">
-                🔒 Secure
+                🔒 Secure Download
             </div>
 
             <div class="security-item">
-                📥 Digital Access
+                📁 Digital File
             </div>
 
             <div class="security-item">
-                🛡️ Protected
+                🛡️ Protected Access
             </div>
 
         </div>
 
 
+
+        <!-- BACK -->
+
         <a
-            href="{{ url_for('checkout', product_id=product.id) }}"
+            href="/"
             class="back-link"
         >
-            ← Back to Checkout
+            ← Back to Store
         </a>
+
 
     </div>
 
 </div>
+
 
 
 <!-- =========================

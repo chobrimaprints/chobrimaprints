@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Place Order | Chobrima Prints</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #111;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #111;
+            color: white;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: auto;
+            padding: 22px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        .secure {
+            font-size: 13px;
+            color: #ccc;
+        }
+
+        /* MAIN */
+
+        .page {
+            min-height: calc(100vh - 130px);
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .order-box {
+            width: 100%;
+            max-width: 520px;
+            background: white;
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            background: #111;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* PRODUCT */
+
+        .product-box {
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 28px;
+        }
+
+        .product-label {
+            font-size: 12px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .price {
+            margin-top: 8px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        /* FORM */
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #111;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #111;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* NOTICE */
+
+        .notice {
+            margin-top: 22px;
+            padding: 15px;
+            background: #fff8e6;
+            border: 1px solid #f0d98a;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #6b5600;
+        }
+
+        /* BACK */
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back:hover {
+            color: #111;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #111;
+            color: #888;
+            text-align: center;
+            padding: 25px 20px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+
+            .page {
+                padding: 30px 15px;
+            }
+
+            .order-box {
+                padding: 28px 22px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .secure {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-inner">
+
+        <div>
+
+            <div class="brand">
+                CHOBRIMA PRINTS
+            </div>
+
+            <div class="tagline">
+                DIGITAL DESIGNS FOR CREATORS
+            </div>
+
+        </div>
+
+        <div class="secure">
+            🔒 Secure Order
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <div class="order-box">
+
+        <div class="icon">
+            🛒
+        </div>
+
+        <h1>
+            Place Your Order
+        </h1>
+
+        <div class="subtitle">
+            Enter your details below to place your order.
+            Your order will be sent to our admin for processing.
+        </div>
+
+
+        <!-- PRODUCT -->
+
+        <div class="product-box">
+
+            <div class="product-label">
+                Selected Product
+            </div>
+
+            <div class="product-name">
+                {{ product.product_name }}
+            </div>
+
+            <div class="price">
+                ₱{{ "%.2f"|format(product.price) }}
+            </div>
+
+        </div>
+
+
+        <!-- ORDER FORM -->
+
+        <form
+            method="POST"
+            action="{{ url_for('place_order_submit') }}"
+        >
+
+            <input
+                type="hidden"
+                name="product_id"
+                value="{{ product.id }}"
+            >
+
+
+            <label for="name">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                required
+            >
+
+
+            <label for="email">
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+            >
+
+            <label for="mobile">
+                Mobile Number / WhatsApp
+            </label>
+
+            <input
+                type="tel"
+                id="mobile"
+                name="mobile"
+                placeholder="+966 5XXXXXXXX"
+                required
+            >
+            
+            <div
+                class="cf-turnstile"
+                data-sitekey="{{ turnstile_site_key }}"
+                style="margin: 20px 0;"
+            ></div>
+
+            <button type="submit">
+                🛒 PLACE ORDER
+            </button>
+
+        </form>
+
+
+        <div class="notice">
+
+            ℹ️ <strong>Order Status:</strong>
+            Your order will initially be marked as
+            <strong>PENDING</strong> and will appear in the
+            Chobrima admin panel for processing.
+
+        </div>
+
+
+        <a
+            href="{{ url_for('product', product_id=product.id) }}"
+            class="back"
+        >
+            ← Back to Product
+        </a>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    © 2026 Chobrima Prints — Digital Designs for Creators
+
+</footer>
+
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer>
+</script>
+
+</body>
+
+</html>

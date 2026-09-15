@@ -11,9 +11,8 @@
     >
 
     <title>
-        Payment | Chobrima Prints
+        {{ error_title }} | Chobrima Prints
     </title>
-
 
     <style>
 
@@ -32,7 +31,6 @@
             text-decoration: none;
         }
 
-
         /* =========================
            HEADER
         ========================= */
@@ -46,6 +44,7 @@
         .header-inner {
             max-width: 1200px;
             margin: auto;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -73,170 +72,153 @@
             font-size: 11px;
         }
 
-
         /* =========================
-           PAGE
+           MAIN
         ========================= */
 
-        .payment-container {
+        .error-container {
             min-height: calc(100vh - 70px);
+
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 35px 20px 55px;
-        }
 
+            padding: 40px 20px 60px;
+        }
 
         /* =========================
-           PAYMENT CARD
+           ERROR CARD
         ========================= */
 
-        .payment-box {
+        .error-card {
             width: 100%;
-            max-width: 500px;
-            background: white;
-            border: 1px solid #eee;
-            border-radius: 14px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 7px 25px rgba(0, 0, 0, .06);
-        }
+            max-width: 540px;
 
+            background: white;
+
+            border: 1px solid #eee;
+            border-radius: 16px;
+
+            padding: 38px 35px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, .06);
+        }
 
         /* =========================
            ICON
         ========================= */
 
-        .payment-icon {
-            width: 58px;
-            height: 58px;
-            margin: 0 auto 15px;
+        .error-icon {
+            width: 68px;
+            height: 68px;
+
+            margin: 0 auto 18px;
+
             border-radius: 50%;
-            background: #f1f1f1;
+
+            background: #fff8e1;
+
+            color: #b45309;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-        }
 
+            font-size: 32px;
+            font-weight: bold;
+        }
 
         /* =========================
            TITLE
         ========================= */
 
-        .payment-box h1 {
+        .error-card h1 {
             margin: 0;
-            font-size: 26px;
-        }
 
-        .payment-subtitle {
-            margin: 7px 0 25px;
-            color: #777;
-            font-size: 12px;
-        }
-
-
-        /* =========================
-           ORDER SUMMARY
-        ========================= */
-
-        .order-summary {
-            background: #f8f8f8;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 16px;
-            text-align: left;
-            margin-bottom: 18px;
-        }
-
-        .summary-label {
-            color: #888;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: .5px;
-            margin-bottom: 6px;
-        }
-
-        .product-name {
-            color: #111827;
-            font-size: 15px;
-            font-weight: bold;
-            line-height: 1.4;
-        }
-
-        .product-type {
-            color: #777;
-            font-size: 11px;
-            margin-top: 5px;
-        }
-
-
-        /* =========================
-           TOTAL
-        ========================= */
-
-        .total-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .total-label {
-            color: #666;
-            font-size: 12px;
-        }
-
-        .price {
-            color: #111;
             font-size: 27px;
-            font-weight: bold;
+            font-weight: 800;
         }
 
+        .error-message {
+            margin: 10px 0 6px;
 
-        /* =========================
-           TEST NOTICE
-        ========================= */
+            color: #555;
 
-        .test-notice {
-            margin: 20px 0;
-            padding: 14px;
-            background: #fff8e1;
-            border: 1px solid #f0d879;
-            border-radius: 9px;
-            color: #6b5700;
-            font-size: 11px;
+            font-size: 13px;
+
             line-height: 1.6;
         }
 
-        .test-notice strong {
-            color: #4d4000;
+        .error-detail {
+            margin: 0;
+
+            color: #888;
+
+            font-size: 12px;
+
+            line-height: 1.6;
         }
 
-
         /* =========================
-           PAYMENT BUTTON
+           SUGGESTION
         ========================= */
 
-        .payment-button {
-            width: 100%;
+        .suggestion {
+            margin-top: 20px;
+
             padding: 15px;
-            border: none;
-            border-radius: 8px;
-            background: #111;
-            color: white;
+
+            background: #f8f8f8;
+
+            border: 1px solid #eee;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            color: #555;
+        }
+
+        .suggestion strong {
+            color: #111827;
+
             font-size: 13px;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .back-button {
+            display: block;
+
+            width: 100%;
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            background: #111;
+
+            color: white;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
             font-weight: bold;
-            cursor: pointer;
+
             transition: .2s;
         }
 
-        .payment-button:hover {
+        .back-button:hover {
             background: #333;
+
             transform: translateY(-1px);
         }
-
 
         /* =========================
            SECURITY
@@ -244,35 +226,25 @@
 
         .security {
             display: grid;
+
             grid-template-columns: repeat(3, 1fr);
+
             gap: 6px;
+
             margin-top: 14px;
         }
 
         .security-item {
             background: #f8f8f8;
+
             border-radius: 6px;
-            padding: 8px 4px;
+
+            padding: 9px 4px;
+
             color: #777;
+
             font-size: 9px;
         }
-
-
-        /* =========================
-           BACK
-        ========================= */
-
-        .back-link {
-            display: block;
-            margin-top: 17px;
-            color: #666;
-            font-size: 11px;
-        }
-
-        .back-link:hover {
-            color: #1683ff;
-        }
-
 
         /* =========================
            FOOTER
@@ -280,8 +252,11 @@
 
         footer {
             background: #111;
+
             color: white;
+
             padding: 25px 20px;
+
             text-align: center;
         }
 
@@ -291,10 +266,11 @@
 
         footer p {
             margin: 5px 0 0;
+
             color: #777;
+
             font-size: 9px;
         }
-
 
         /* =========================
            MOBILE
@@ -318,31 +294,35 @@
                 font-size: 9px;
             }
 
-            .payment-container {
+            .error-container {
                 padding: 25px 13px 40px;
+
                 align-items: flex-start;
             }
 
-            .payment-box {
-                padding: 23px 17px;
+            .error-card {
+                padding: 25px 17px;
+
                 border-radius: 12px;
             }
 
-            .payment-box h1 {
+            .error-card h1 {
                 font-size: 24px;
             }
 
-            .price {
-                font-size: 25px;
+            .error-icon {
+                width: 60px;
+                height: 60px;
+
+                font-size: 28px;
             }
 
             .security {
                 grid-template-columns: 1fr;
+
                 gap: 5px;
             }
-
         }
-
 
         @media (max-width: 380px) {
 
@@ -350,10 +330,9 @@
                 display: none;
             }
 
-            .payment-box {
-                padding: 20px 14px;
+            .error-card {
+                padding: 21px 14px;
             }
-
         }
 
     </style>
@@ -384,7 +363,6 @@
 
         </div>
 
-
         <div class="secure-header">
             🔒 Secure Checkout
         </div>
@@ -395,121 +373,51 @@
 
 
 <!-- =========================
-     PAYMENT
+     ERROR PAGE
 ========================= -->
 
-<div class="payment-container">
+<div class="error-container">
 
+    <div class="error-card">
 
-    <div class="payment-box">
-
-
-        <div class="payment-icon">
-            💳
+        <div class="error-icon">
+            {{ error_icon }}
         </div>
 
 
         <h1>
-            Payment
+            {{ error_title }}
         </h1>
 
 
-        <p class="payment-subtitle">
-            Review your order before completing payment.
+        <p class="error-message">
+            {{ error_message }}
         </p>
 
 
-        <!-- ORDER SUMMARY -->
+        <p class="error-detail">
+            {{ error_detail }}
+        </p>
 
-        <div class="order-summary">
 
-            <div class="summary-label">
-                Your Order
-            </div>
+        {% if suggestion %}
 
-            <div class="product-name">
-                {{ product.product_name }}
-            </div>
+        <div class="suggestion">
 
-            <div class="product-type">
-                📁 Digital Download
-            </div>
+            {{ suggestion | safe }}
 
         </div>
 
-
-        <!-- TOTAL -->
-
-        <div class="total-box">
-
-            <div class="total-label">
-                Total Amount
-            </div>
-
-            <div class="price">
-                ₱{{ "%.2f"|format(product.price) }}
-            </div>
-
-        </div>
+        {% endif %}
 
 
-        <!-- TEST NOTICE -->
-
-        <div class="test-notice">
-
-            ⚠️ <strong>TEST PAYMENT MODE</strong>
-
-            <br>
-
-            This is currently a test transaction.
-            No real payment will be charged.
-
-        </div>
-
-
-        <!-- PAYMENT FORM -->
-
-        <form
-            action="{{ url_for('payment_success') }}"
-            method="POST"
+        <a
+            href="{{ back_url }}"
+            class="back-button"
         >
+            ← {{ back_text }}
+        </a>
 
-
-            <input
-                type="hidden"
-                name="name"
-                value="{{ name }}"
-            >
-
-
-            <input
-                type="hidden"
-                name="email"
-                value="{{ email }}"
-            >
-
-
-            <input
-                type="hidden"
-                name="product_id"
-                value="{{ product.id }}"
-            >
-
-
-            <button
-                type="submit"
-                class="payment-button"
-            >
-
-                PAY ₱{{ "%.2f"|format(product.price) }}
-                — TEST PAYMENT
-
-            </button>
-
-        </form>
-
-
-        <!-- SECURITY -->
 
         <div class="security">
 
@@ -518,7 +426,7 @@
             </div>
 
             <div class="security-item">
-                📥 Digital Access
+                🛒 Checkout
             </div>
 
             <div class="security-item">
@@ -526,14 +434,6 @@
             </div>
 
         </div>
-
-
-        <a
-            href="{{ url_for('checkout', product_id=product.id) }}"
-            class="back-link"
-        >
-            ← Back to Checkout
-        </a>
 
     </div>
 

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Product | Chobrima Prints</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f5f7;
+            color: #111;
+        }
+
+        .header {
+            background: #111;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .admin-label {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #555;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            color: #1683ff;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 5px 25px rgba(0,0,0,.07);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #1683ff;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .notice {
+            background: #fff8e5;
+            border: 1px solid #f0d98a;
+            padding: 15px;
+            border-radius: 10px;
+            color: #765d00;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .error {
+            background: #ffe9e9;
+            border: 1px solid #f0b5b5;
+            color: #a40000;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .button {
+            border: none;
+            border-radius: 9px;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .save {
+            background: #111;
+            color: white;
+        }
+
+        .save:hover {
+            background: #333;
+        }
+
+        .cancel {
+            background: #eee;
+            color: #333;
+        }
+
+        .cancel:hover {
+            background: #ddd;
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .container {
+                margin: 25px auto;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <div class="logo">
+            CHOBRIMA PRINTS
+        </div>
+
+        <div class="admin-label">
+            ADMIN PANEL
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <a href="{{ url_for('admin') }}" class="back">
+        ← Back to Dashboard
+    </a>
+
+
+    <div class="card">
+
+        <h1>
+            Add New Product
+        </h1>
+
+        <p class="subtitle">
+            Add a new digital product to your Chobrima Prints catalog.
+        </p>
+
+
+        {% if error %}
+
+        <div class="error">
+            ❌ {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <div class="notice">
+    <strong>Product Upload:</strong>
+    Upload a public preview image and the private digital ZIP file.
+    The ZIP file will not be placed inside the public website folder.
+</div>
+
+
+        <form method="POST" enctype="multipart/form-data">
+
+
+            <!-- PRODUCT NAME -->
+
+            <div class="form-group">
+
+                <label for="product_name">
+                    Product Name *
+                </label>
+
+                <input
+                    type="text"
+                    id="product_name"
+                    name="product_name"
+                    placeholder="Example: Blessed Forever Design V.1"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CATEGORY + PRICE -->
+
+            <div class="row">
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category *
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Religious">
+                            Religious
+                        </option>
+
+                        <option value="T-Shirt">
+                            T-Shirt
+                        </option>
+
+                        <option value="Streetwear">
+                            Streetwear
+                        </option>
+
+                        <option value="Typography">
+                            Typography
+                        </option>
+
+                        <option value="Illustration">
+                            Illustration
+                        </option>
+
+                        <option value="Vintage">
+                            Vintage
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="price">
+                        Price (PHP) *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        min="0"
+                        step="0.01"
+                        placeholder="99.00"
+                        required
+                    >
+
+                    <div class="form-group">
+
+    <label for="product_type">
+        Product Type
+    </label>
+
+    <select
+        id="product_type"
+        name="product_type"
+        required
+        style="
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            background: white;
+        "
+    >
+
+        <option value="PAID" selected>
+            💰 PAID
+        </option>
+
+        <option value="FREE">
+            🆓 FREE
+        </option>
+
+    </select>
+
+</div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Describe your digital product..."
+                ></textarea>
+
+            </div>
+
+<!-- PREVIEW IMAGE -->
+
+<!-- PREVIEW IMAGE -->
+
+<div class="form-group">
+
+    <label for="preview_image">
+        Preview Image *
+    </label>
+
+    <input
+        type="file"
+        id="preview_image"
+        name="preview_image"
+        accept=".jpg,.jpeg,.png,.webp"
+        required
+    >
+
+    <small style="display:block;margin-top:8px;color:#777;">
+        JPG, PNG or WebP. This is the main product image shown in the catalog.
+    </small>
+
+</div>
+
+
+<!-- THUMBNAIL 2 -->
+
+<div class="form-group">
+
+    <label for="thumbnail_2">
+        Thumbnail 2
+    </label>
+
+    <input
+        type="file"
+        id="thumbnail_2"
+        name="thumbnail_2"
+        accept=".jpg,.jpeg,.png,.webp"
+    >
+
+    <small style="display:block;margin-top:8px;color:#777;">
+        Optional. JPG, PNG or WebP.
+    </small>
+
+</div>
+
+
+<!-- THUMBNAIL 3 -->
+
+<div class="form-group">
+
+    <label for="thumbnail_3">
+        Thumbnail 3
+    </label>
+
+    <input
+        type="file"
+        id="thumbnail_3"
+        name="thumbnail_3"
+        accept=".jpg,.jpeg,.png,.webp"
+    >
+
+    <small style="display:block;margin-top:8px;color:#777;">
+        Optional. JPG, PNG or WebP.
+    </small>
+
+</div>
+
+
+<!-- THUMBNAIL 4 -->
+
+<div class="form-group">
+
+    <label for="thumbnail_4">
+        Thumbnail 4
+    </label>
+
+    <input
+        type="file"
+        id="thumbnail_4"
+        name="thumbnail_4"
+        accept=".jpg,.jpeg,.png,.webp"
+    >
+
+    <small style="display:block;margin-top:8px;color:#777;">
+        Optional. JPG, PNG or WebP.
+    </small>
+
+</div>
+
+
+<!-- DIGITAL PRODUCT ZIP -->
+
+<div class="form-group">
+
+    <label for="product_file">
+        Digital Product ZIP *
+    </label>
+
+    <input
+        type="file"
+        id="product_file"
+        name="product_file"
+        accept=".zip"
+        required
+    >
+
+    <small style="display:block;margin-top:8px;color:#777;">
+        ZIP file only. This file will be stored privately for customer downloads.
+    </small>
+
+</div>
+
+            <!-- BUTTONS -->
+
+            <div class="button-row">
+
+                <button
+                    type="submit"
+                    class="button save"
+                >
+                    ➕ SAVE PRODUCT
+                </button>
+
+
+                <a
+                    href="{{ url_for('admin') }}"
+                    class="button cancel"
+                >
+                    CANCEL
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

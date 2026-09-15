@@ -1,115 +1,817 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Checkout - Chobrima Prints</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Checkout | Chobrima Prints
+    </title>
+
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
+
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
 
         header {
             background: #111;
             color: white;
-            padding: 20px 8%;
+            padding: 16px 25px;
         }
 
-        .checkout {
-            max-width: 600px;
-            margin: 50px auto;
+        .header-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            min-width: 220px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            color: #999;
+            font-size: 11px;
+            margin-top: 3px;
+            letter-spacing: .7px;
+        }
+
+        .secure-header {
+            color: #aaa;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .checkout-container {
+            max-width: 1050px;
+            margin: 35px auto 60px;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .page-title p {
+            margin: 7px 0 0;
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           CHECKOUT GRID
+        ========================= */
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .checkout-box {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
+            border: 1px solid #eee;
+            border-radius: 14px;
+            padding: 25px;
         }
 
-        h2 {
-            margin-bottom: 25px;
+        .checkout-box h2 {
+            margin: 0 0 20px;
+            font-size: 21px;
+        }
+
+
+        /* =========================
+           PRODUCT SUMMARY
+        ========================= */
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            background: #f7f7f7;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            margin-bottom: 17px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .product-name {
+            font-size: 19px;
+            font-weight: bold;
+            line-height: 1.35;
+            margin-bottom: 6px;
+        }
+
+        .product-type {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .included {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .included p {
+            margin: 9px 0;
+            color: #555;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           CUSTOMER FORM
+        ========================= */
+
+        .form-intro {
+            color: #777;
+            font-size: 12px;
+            line-height: 1.6;
+            margin: -8px 0 18px;
         }
 
         label {
             display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
+            margin: 15px 0 6px;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            color: #111827;
+            font-size: 13px;
+            outline: none;
         }
 
-        .product-name {
-            font-weight: bold;
-            font-size: 20px;
+        input:focus {
+            border-color: #111;
+            box-shadow: 0 0 0 2px rgba(17, 17, 17, .05);
         }
 
-        .price {
-            font-size: 24px;
-            margin: 15px 0;
+
+        /* =========================
+           SECURE NOTE
+        ========================= */
+
+        .secure-note {
+            margin-top: 18px;
+            padding: 13px;
+            background: #f7f8fa;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            color: #666;
+            font-size: 11px;
+            line-height: 1.6;
         }
+
+
+        /* =========================
+           PAYMENT BUTTON
+        ========================= */
 
         button {
             width: 100%;
-            padding: 15px;
-            margin-top: 25px;
+            padding: 14px;
+            margin-top: 20px;
             background: #111;
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
             cursor: pointer;
+            transition: .2s;
         }
 
         button:hover {
             background: #333;
+            transform: translateY(-1px);
         }
+
+
+        /* =========================
+           BACK
+        ========================= */
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .back-link:hover {
+            color: #1683ff;
+        }
+
+
+        /* =========================
+           SECURITY STRIP
+        ========================= */
+
+        .security-strip {
+            max-width: 1050px;
+            margin: 18px auto 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .security-item {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 9px;
+            padding: 13px;
+            text-align: center;
+            color: #666;
+            font-size: 10px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #111;
+            color: white;
+            padding: 28px 20px;
+        }
+
+        .footer-inner {
+            max-width: 1050px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-brand strong {
+            font-size: 15px;
+        }
+
+        .footer-brand p {
+            margin: 5px 0 0;
+            color: #888;
+            font-size: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px;
+        }
+
+        .footer-links a {
+            color: #999;
+            font-size: 10px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            max-width: 1050px;
+            margin: 18px auto 0;
+            padding-top: 15px;
+            border-top: 1px solid #292929;
+            color: #666;
+            font-size: 9px;
+            text-align: center;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-container {
+                margin-top: 25px;
+            }
+
+            .product-image {
+                height: 330px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 14px 18px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .tagline {
+                font-size: 9px;
+            }
+
+            .secure-header {
+                font-size: 10px;
+            }
+
+            .checkout-container {
+                padding: 0 12px;
+                margin: 22px auto 40px;
+            }
+
+            .page-title {
+                margin-bottom: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+            .page-title p {
+                font-size: 11px;
+            }
+
+            .checkout-grid {
+                gap: 12px;
+            }
+
+            .checkout-box {
+                padding: 18px;
+                border-radius: 11px;
+            }
+
+            .checkout-box h2 {
+                font-size: 19px;
+                margin-bottom: 16px;
+            }
+
+            .product-image {
+                height: 280px;
+            }
+
+            .product-name {
+                font-size: 17px;
+            }
+
+            .price {
+                font-size: 25px;
+            }
+
+            .security-strip {
+                grid-template-columns: 1fr;
+                margin: 12px 12px 0;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+        }
+
+
+        @media (max-width: 380px) {
+
+            .product-image {
+                height: 240px;
+            }
+
+            .secure-header {
+                display: none;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
-    <h1>CHOBRIMA PRINTS</h1>
-</header>
 
-<div class="checkout">
+    <div class="header-inner">
 
-    <h2>Checkout</h2>
+        <div class="brand">
 
-    <p class="product-name">
-        Blessed Forever Design V.1
-    </p>
+            <div class="logo">
+                CHOBRIMA PRINTS
+            </div>
 
-    <p>
-        Digital Download — SVG + PNG
-    </p>
+            <div class="tagline">
+                DIGITAL DESIGNS FOR CREATORS
+            </div>
 
-    <div class="price">
-        ₱99
+        </div>
+
+        <div class="secure-header">
+            🔒 Secure Checkout
+        </div>
+
     </div>
 
-    <form action="/payment" method="POST">
+</header>
 
-    <label>Full Name</label>
-    <input type="text" name="name" required>
 
-    <label>Email Address</label>
-    <input type="email" name="email" required>
+<!-- =========================
+     CHECKOUT
+========================= -->
 
-    <button type="submit">
-        PROCEED TO PAYMENT
-    </button>
+<div class="checkout-container">
 
-</form>
+
+    <div class="page-title">
+
+        <h1>
+            Checkout
+        </h1>
+
+        <p>
+            Complete your information before proceeding to payment.
+        </p>
+
+    </div>
+
+
+    <div class="checkout-grid">
+
+
+        <!-- =========================
+             ORDER SUMMARY
+        ========================= -->
+
+        <div class="checkout-box">
+
+            <h2>
+                Order Summary
+            </h2>
+
+
+            <div class="product-image">
+
+                <img
+                    src="{{ get_product_image_url(product.preview_image) }}"
+                    alt="{{ product.product_name }}"
+                >
+
+            </div>
+
+
+            <div class="product-name">
+                {{ product.product_name }}
+            </div>
+
+
+            <div class="product-type">
+                📁 Digital Download
+            </div>
+
+
+            <div class="price">
+                ₱{{ "%.2f"|format(product.price) }}
+            </div>
+
+
+            <div class="included">
+
+                <p>
+                    ✓ Digital product file
+                </p>
+
+                <p>
+                    ✓ High-quality design
+                </p>
+
+                <p>
+                    ✓ Secure download
+                </p>
+
+                <p>
+                    ✓ One-time download link
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CUSTOMER INFORMATION
+        ========================= -->
+
+        <div class="checkout-box">
+
+            <h2>
+                Customer Information
+            </h2>
+
+
+            <p class="form-intro">
+                Please enter your details correctly.
+                Your email will be used for your order
+                and digital download information.
+            </p>
+
+
+            <form
+                action="{{ url_for('payment') }}"
+                method="POST"
+                onsubmit="return validateCheckout()"
+            >
+
+
+                <input
+                    type="hidden"
+                    name="product_id"
+                    value="{{ product.id }}"
+                >
+
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    maxlength="100"
+                    required
+                >
+
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    maxlength="120"
+                    required
+                >
+
+
+                <div class="secure-note">
+
+                    🔐 <strong>Your information is secure.</strong>
+
+                    <br>
+
+                    We only use your email for
+                    order information and digital
+                    download access.
+
+                </div>
+
+
+                <button type="submit">
+                    PROCEED TO PAYMENT →
+                </button>
+
+            </form>
+
+
+            <a
+                href="{{ url_for('product', product_id=product.id) }}"
+                class="back-link"
+            >
+                ← Back to Product
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SECURITY
+    ========================= -->
+
+    <div class="security-strip">
+
+        <div class="security-item">
+            🔒 Secure Checkout
+        </div>
+
+        <div class="security-item">
+            📥 Instant Digital Access
+        </div>
+
+        <div class="security-item">
+            🛡️ Protected Download
+        </div>
+
+    </div>
 
 </div>
 
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <strong>
+                CHOBRIMA PRINTS
+            </strong>
+
+            <p>
+                Digital Designs & Printing Services
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/contact">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 Chobrima Prints.
+        All rights reserved.
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     VALIDATION
+========================= -->
+
+<script>
+
+    function validateCheckout() {
+
+        const name =
+            document.getElementById("name")
+                .value
+                .trim();
+
+        const email =
+            document.getElementById("email")
+                .value
+                .trim();
+
+
+        const emailPattern =
+            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+
+        if (!name) {
+
+            alert(
+                "Please enter your full name."
+            );
+
+            document
+                .getElementById("name")
+                .focus();
+
+            return false;
+        }
+
+
+        if (name.length < 3) {
+
+            alert(
+                "Please enter your complete name."
+            );
+
+            document
+                .getElementById("name")
+                .focus();
+
+            return false;
+        }
+
+
+        if (!emailPattern.test(email)) {
+
+            alert(
+                "Please enter a valid email address."
+            );
+
+            document
+                .getElementById("email")
+                .focus();
+
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+</script>
+
+
 </body>
+
 </html>
