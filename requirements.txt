@@ -11,3 +11,4 @@ SQLAlchemy==2.0.52
 typing_extensions==4.16.0
 Werkzeug==3.1.8
 python-dotenv
+phonenumbers
