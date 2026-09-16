@@ -538,6 +538,23 @@ def paymongo_webhook():
     return {"status": "received"}, 200
 
 # =========================
+# PRODUCT DETAIL
+# =========================
+
+@app.route("/product/<int:product_id>")
+def product(product_id):
+
+    product = Product.query.filter_by(
+        id=product_id,
+        active=True
+    ).first_or_404()
+
+    return render_template(
+        "product.html",
+        product=product
+    )
+
+# =========================
 # CHECKOUT
 # =========================
 
@@ -598,7 +615,6 @@ def payment():
     # ==================================================
 
     if not name or len(name) < 2:
-
         return render_template(
             "form_error.html",
             error_title="Invalid Name",
@@ -618,19 +634,15 @@ def payment():
     # ==================================================
 
     email_pattern = (
-    r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+"
-    r"@[A-Za-z0-9-]+"
-    r"(?:\.[A-Za-z0-9-]{2,})+$"
+        r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+"
+        r"@[A-Za-z0-9-]+"
+        r"(?:\.[A-Za-z0-9-]{2,})+$"
     )
-
-    print("DEBUG EMAIL:", repr(email))
-    print("DEBUG EMAIL MATCH:", bool(re.match(email_pattern, email)))
 
     if not email or not re.match(
         email_pattern,
         email
     ):
-
         return render_template(
             "form_error.html",
             error_title="Invalid Email Address",
@@ -656,7 +668,6 @@ def payment():
         or email_domain.endswith("-")
         or ".." in email_domain
     ):
-
         return render_template(
             "form_error.html",
             error_title="Invalid Email Address",
@@ -681,13 +692,10 @@ def payment():
         "gmail.co": "gmail.com",
         "gmai.com": "gmail.com",
         "gmial.com": "gmail.com",
-
         "yaho.com": "yahoo.com",
         "yahoo.con": "yahoo.com",
-
         "hotmai.com": "hotmail.com",
         "hotmail.con": "hotmail.com",
-
         "outlok.com": "outlook.com",
         "outlook.con": "outlook.com",
     }
@@ -724,7 +732,6 @@ def payment():
     # ==================================================
 
     if not product_id:
-
         return render_template(
             "form_error.html",
             error_title="Invalid Product",
@@ -746,7 +753,6 @@ def payment():
     ).first()
 
     if not product:
-
         return render_template(
             "form_error.html",
             error_title="Product Not Found",
@@ -763,7 +769,6 @@ def payment():
     # ==================================================
 
     if not product.product_file:
-
         return render_template(
             "form_error.html",
             error_title="Digital File Not Available",
@@ -776,14 +781,299 @@ def payment():
         )
 
     # ==================================================
-    # PAYMENT PAGE
+    # PAYMONGO SECRET KEY
     # ==================================================
 
-    return render_template(
-        "payment.html",
-        name=name,
-        email=email,
-        product=product
+    paymongo_secret_key = os.getenv(
+        "PAYMONGO_SECRET_KEY"
+    )
+
+    if not paymongo_secret_key:
+        print("❌ PAYMONGO_SECRET_KEY is missing")
+
+        return render_template(
+            "form_error.html",
+            error_title="Payment System Unavailable",
+            error_message="Payment is temporarily unavailable.",
+            error_detail="Please try again later.",
+            error_icon="✕",
+            suggestion=None,
+            back_url=url_for(
+                "checkout",
+                product_id=product.id
+            ),
+            back_text="GO BACK TO CHECKOUT"
+        )
+
+    # ==================================================
+    # GENERATE CHOBRIMA ORDER ID
+    # ==================================================
+
+    order_id = (
+        "CB-"
+        + uuid.uuid4().hex[:8].upper()
+    )
+
+    # ==================================================
+    # GENERATE SECURE DOWNLOAD TOKEN
+    # ==================================================
+
+    raw_token = secrets.token_urlsafe(32)
+
+    token_hash = hashlib.sha256(
+        raw_token.encode()
+    ).hexdigest()
+
+    # ==================================================
+    # CREATE PENDING ORDER
+    # ==================================================
+
+    order = Order(
+        order_id=order_id,
+        customer_name=name,
+        customer_email=email,
+        customer_mobile="",
+        product_name=product.product_name,
+        amount=product.price,
+        status="PENDING"
+    )
+
+    db.session.add(order)
+
+    # ==================================================
+    # CREATE DOWNLOAD RECORD
+    # ==================================================
+
+    download = Download(
+        order_id=order_id,
+        product_id=product.id,
+        token_hash=token_hash,
+        download_count=0
+    )
+
+    db.session.add(download)
+
+    db.session.commit()
+
+    # ==================================================
+    # SAVE ORDER + TOKEN IN SESSION
+    # ==================================================
+
+    session["success_order_id"] = order_id
+    session["success_download_token"] = raw_token
+
+    # ==================================================
+    # PAYMONGO CHECKOUT SESSION
+    # ==================================================
+
+    amount_centavos = int(
+        round(product.price * 100)
+    )
+
+    success_url = url_for(
+        "payment_success",
+        order_id=order_id,
+        _external=True
+    )
+
+    cancel_url = url_for(
+        "checkout",
+        product_id=product.id,
+        _external=True
+    )
+
+    payload = {
+        "data": {
+            "attributes": {
+
+                "line_items": [
+                    {
+                        "name": product.product_name,
+                        "amount": amount_centavos,
+                        "currency": "PHP",
+                        "quantity": 1
+                    }
+                ],
+
+                "payment_method_types": [
+                    "card",
+                    "gcash",
+                    "qrph"
+                ],
+
+                "success_url": success_url,
+
+                "cancel_url": cancel_url,
+
+                "reference_number": order_id,
+
+                "send_email_receipt": True,
+
+                "metadata": {
+                    "order_id": order_id,
+                    "product_id": str(product.id)
+                }
+            }
+        }
+    }
+
+    try:
+
+        response = requests.post(
+            "https://api.paymongo.com/v2/checkout_sessions",
+
+            auth=(
+                paymongo_secret_key,
+                ""
+            ),
+
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Idempotency-Key": order_id
+            },
+
+            json=payload,
+
+            timeout=30
+        )
+
+    except requests.RequestException as exc:
+
+        print(
+            "❌ PAYMONGO CONNECTION ERROR:",
+            exc
+        )
+
+        db.session.delete(download)
+        db.session.delete(order)
+        db.session.commit()
+
+        session.pop(
+            "success_order_id",
+            None
+        )
+
+        session.pop(
+            "success_download_token",
+            None
+        )
+
+        return render_template(
+            "form_error.html",
+            error_title="Payment Connection Error",
+            error_message="We could not connect to the payment gateway.",
+            error_detail="Please try again in a few moments.",
+            error_icon="✕",
+            suggestion=None,
+            back_url=url_for(
+                "checkout",
+                product_id=product.id
+            ),
+            back_text="GO BACK TO CHECKOUT"
+        )
+
+    # ==================================================
+    # CHECK PAYMONGO RESPONSE
+    # ==================================================
+
+    if response.status_code != 200:
+
+        print(
+            "❌ PAYMONGO ERROR:",
+            response.status_code
+        )
+
+        print(
+            response.text
+        )
+
+        db.session.delete(download)
+        db.session.delete(order)
+        db.session.commit()
+
+        session.pop(
+            "success_order_id",
+            None
+        )
+
+        session.pop(
+            "success_download_token",
+            None
+        )
+
+        return render_template(
+            "form_error.html",
+            error_title="Payment Error",
+            error_message="We could not create your payment session.",
+            error_detail="Please try again or contact Chobrima Prints.",
+            error_icon="✕",
+            suggestion=None,
+            back_url=url_for(
+                "checkout",
+                product_id=product.id
+            ),
+            back_text="GO BACK TO CHECKOUT"
+        )
+
+    # ==================================================
+    # GET PAYMONGO CHECKOUT URL
+    # ==================================================
+
+    paymongo_data = response.json()
+
+    checkout_url = (
+        paymongo_data
+        .get("data", {})
+        .get("attributes", {})
+        .get("checkout_url")
+    )
+
+    if not checkout_url:
+
+        print(
+            "❌ PAYMONGO CHECKOUT URL MISSING"
+        )
+
+        db.session.delete(download)
+        db.session.delete(order)
+        db.session.commit()
+
+        session.pop(
+            "success_order_id",
+            None
+        )
+
+        session.pop(
+            "success_download_token",
+            None
+        )
+
+        return render_template(
+            "form_error.html",
+            error_title="Payment Error",
+            error_message="Payment checkout could not be opened.",
+            error_detail="Please try again later.",
+            error_icon="✕",
+            suggestion=None,
+            back_url=url_for(
+                "checkout",
+                product_id=product.id
+            ),
+            back_text="GO BACK TO CHECKOUT"
+        )
+
+    print(
+        "✅ PAYMONGO CHECKOUT CREATED:",
+        order_id
+    )
+
+    # ==================================================
+    # REDIRECT CUSTOMER TO PAYMONGO
+    # ==================================================
+
+    return redirect(
+        checkout_url
     )
 
 @app.route("/place-order")
