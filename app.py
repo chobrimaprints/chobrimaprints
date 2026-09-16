@@ -1564,11 +1564,12 @@ def free_download(product_id):
 
     order = Order(
         order_id=order_id,
-        customer_name="Free Download",
-        customer_email="free@chobrima.local",
+        customer_name=name,
+        customer_email=email,
+        customer_mobile="",
         product_name=product.product_name,
-        amount=0.0,
-        status="FREE"
+        amount=product.price,
+        status="PAID"
     )
 
     db.session.add(order)
