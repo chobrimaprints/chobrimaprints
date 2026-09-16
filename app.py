@@ -7,6 +7,8 @@ import uuid
 import os 
 load_dotenv()
 import re
+import hmac
+import time
 import phonenumbers
 import requests
 import secrets
@@ -442,28 +444,34 @@ def home():
 # PAYMONGO WEBHOOK
 @app.route("/paymongo/webhook", methods=["POST"])
 def paymongo_webhook():
-    import hmac
-    import hashlib
-    import time
 
-    webhook_secret = os.getenv("PAYMONGO_WEBHOOK_SECRET")
+    # ==================================================
+    # PAYMONGO WEBHOOK SIGNATURE VERIFICATION
+    # ==================================================
 
-    if not webhook_secret:
+    paymongo_webhook_secret = os.getenv(
+        "PAYMONGO_WEBHOOK_SECRET"
+    )
+
+    if not paymongo_webhook_secret:
         print("❌ PAYMONGO_WEBHOOK_SECRET is missing")
-        return {"status": "server configuration error"}, 500
+        return {"status": "error"}, 500
 
-    # IMPORTANT:
-    # Get the RAW request body before parsing JSON.
     raw_body = request.get_data()
 
-    signature_header = request.headers.get("Paymongo-Signature", "")
+    signature_header = request.headers.get(
+        "Paymongo-Signature",
+        ""
+    )
 
     if not signature_header:
-        print("❌ Missing Paymongo-Signature header")
-        return {"status": "missing signature"}, 400
+        print("❌ PAYMONGO-Signature header missing")
+        return {"status": "error"}, 400
 
-    # Parse:
-    # t=timestamp,te=test_signature,li=live_signature
+    # --------------------------------------------------
+    # Parse signature header
+    # --------------------------------------------------
+
     signature_parts = {}
 
     for part in signature_header.split(","):
@@ -476,66 +484,353 @@ def paymongo_webhook():
     live_signature = signature_parts.get("li")
 
     if not timestamp:
-        print("❌ Missing webhook timestamp")
-        return {"status": "invalid signature"}, 400
+        print("❌ PayMongo webhook timestamp missing")
+        return {"status": "error"}, 400
 
-    # Our current webhook is TEST MODE.
-    received_signature = test_signature
+    # --------------------------------------------------
+    # Timestamp protection
+    # --------------------------------------------------
 
-    if not received_signature:
-        print("❌ Missing test signature")
-        return {"status": "invalid signature"}, 400
-
-    # Optional replay protection:
-    # Reject requests older than 5 minutes.
     try:
-        timestamp_int = int(timestamp)
-        if abs(time.time() - timestamp_int) > 300:
-            print("❌ Webhook timestamp too old")
-            return {"status": "expired signature"}, 400
-    except ValueError:
-        print("❌ Invalid webhook timestamp")
-        return {"status": "invalid timestamp"}, 400
 
-    # PayMongo signature:
-    # HMAC-SHA256(timestamp + "." + raw_body)
-    signed_payload = timestamp.encode() + b"." + raw_body
+        timestamp_int = int(timestamp)
+
+    except ValueError:
+
+        print("❌ Invalid PayMongo webhook timestamp")
+        return {"status": "error"}, 400
+
+    current_time = int(time.time())
+
+    if abs(current_time - timestamp_int) > 300:
+
+        print("❌ PayMongo webhook timestamp expired")
+        return {"status": "error"}, 400
+
+    # --------------------------------------------------
+    # Generate expected signature
+    # --------------------------------------------------
+
+    signed_payload = (
+        timestamp
+        + "."
+        + raw_body.decode("utf-8")
+    )
 
     expected_signature = hmac.new(
-        webhook_secret.encode(),
-        signed_payload,
+        paymongo_webhook_secret.encode("utf-8"),
+        signed_payload.encode("utf-8"),
         hashlib.sha256
     ).hexdigest()
 
+    # --------------------------------------------------
+    # Sandbox / Test Mode uses "te"
+    # Live Mode uses "li"
+    # --------------------------------------------------
+
+    provided_signature = (
+        test_signature
+        if test_signature
+        else live_signature
+    )
+
+    if not provided_signature:
+
+        print("❌ PayMongo webhook signature missing")
+
+        return {"status": "error"}, 400
+
     if not hmac.compare_digest(
         expected_signature,
-        received_signature
+        provided_signature
     ):
-        print("❌ INVALID PAYMONGO WEBHOOK SIGNATURE")
-        return {"status": "invalid signature"}, 400
+
+        print("❌ PAYMONGO WEBHOOK SIGNATURE INVALID")
+
+        return {"status": "error"}, 400
 
     print("✅ PAYMONGO WEBHOOK SIGNATURE VERIFIED")
 
-    # Only parse JSON AFTER signature verification.
-    payload = request.get_json(silent=True)
+    # ==================================================
+    # PARSE WEBHOOK JSON
+    # ==================================================
+
+    try:
+
+        payload = request.get_json()
+
+    except Exception as exc:
+
+        print(
+            "❌ PAYMONGO WEBHOOK JSON ERROR:",
+            exc
+        )
+
+        return {"status": "error"}, 400
 
     if not payload:
-        print("❌ Invalid JSON payload")
-        return {"status": "invalid payload"}, 400
 
-    event_data = payload.get("data", {})
-    event_attributes = event_data.get("attributes", {})
+        print("❌ Empty PayMongo webhook payload")
 
-    event_type = event_attributes.get("type")
+        return {"status": "error"}, 400
 
     print("🔔 PAYMONGO WEBHOOK RECEIVED")
-    print("Event Type:", event_type)
 
-    if event_type == "checkout_session.payment.paid":
-        print("💰 CHECKOUT PAYMENT PAID EVENT RECEIVED")
+    # ==================================================
+    # GET EVENT DATA
+    # ==================================================
 
-    # Acknowledge PayMongo.
-    return {"status": "received"}, 200
+    event_data = payload.get("data", {})
+
+    event_attributes = event_data.get(
+        "attributes",
+        {}
+    )
+
+    event_type = event_attributes.get(
+        "type"
+    )
+
+    print(
+        "Event Type:",
+        event_type
+    )
+
+    # ==================================================
+    # ONLY PROCESS PAYMENT PAID
+    # ==================================================
+
+    if event_type != "checkout_session.payment.paid":
+
+        print(
+            "ℹ️ Ignoring PayMongo event:",
+            event_type
+        )
+
+        return {
+            "status": "ignored"
+        }, 200
+
+    print(
+        "💰 CHECKOUT PAYMENT PAID EVENT RECEIVED"
+    )
+
+    # ==================================================
+    # GET CHECKOUT SESSION DATA
+    # ==================================================
+
+    checkout_data = event_attributes.get(
+        "data",
+        {}
+    )
+
+    checkout_attributes = checkout_data.get(
+        "attributes",
+        {}
+    )
+
+    # ==================================================
+    # GET ORDER ID
+    # ==================================================
+
+    metadata = checkout_attributes.get(
+        "metadata",
+        {}
+    )
+
+    order_id = metadata.get(
+        "order_id"
+    )
+
+    if not order_id:
+
+        order_id = checkout_attributes.get(
+            "reference_number"
+        )
+
+    if not order_id:
+
+        print(
+            "❌ PayMongo order ID not found"
+        )
+
+        return {
+            "status": "error"
+        }, 400
+
+    print(
+        "🧾 CHOBRIMA ORDER ID:",
+        order_id
+    )
+
+    # ==================================================
+    # FIND ORDER
+    # ==================================================
+
+    order = Order.query.filter_by(
+        order_id=order_id
+    ).first()
+
+    if not order:
+
+        print(
+            "❌ ORDER NOT FOUND:",
+            order_id
+        )
+
+        return {
+            "status": "error"
+        }, 404
+
+    print(
+        "📦 ORDER FOUND:",
+        order.order_id,
+        "| Current Status:",
+        order.status
+    )
+
+    # ==================================================
+    # IDEMPOTENCY
+    # ==================================================
+
+    if order.status == "PAID":
+
+        print(
+            "ℹ️ ORDER ALREADY PAID:",
+            order.order_id
+        )
+
+        return {
+            "status": "already_paid"
+        }, 200
+
+    # ==================================================
+    # VERIFY PAYMENT
+    # ==================================================
+
+    payments = checkout_attributes.get(
+        "payments",
+        []
+    )
+
+    payment_status = None
+
+    if payments:
+
+        first_payment = payments[0]
+
+        payment_attributes = first_payment.get(
+            "attributes",
+            {}
+        )
+
+        payment_status = payment_attributes.get(
+            "status"
+        )
+
+    print(
+        "💳 PAYMENT STATUS:",
+        payment_status
+    )
+
+    if payment_status != "paid":
+
+        print(
+            "❌ PAYMENT IS NOT PAID:",
+            payment_status
+        )
+
+        return {
+            "status": "payment_not_paid"
+        }, 400
+
+    # ==================================================
+    # VERIFY CURRENCY
+    # ==================================================
+
+    currency = None
+
+    line_items = checkout_attributes.get(
+        "line_items",
+        []
+    )
+
+    if line_items:
+
+        currency = line_items[0].get(
+            "currency"
+        )
+
+    if currency and currency != "PHP":
+
+        print(
+            "❌ INVALID PAYMENT CURRENCY:",
+            currency
+        )
+
+        return {
+            "status": "invalid_currency"
+        }, 400
+
+    # ==================================================
+    # VERIFY AMOUNT
+    # ==================================================
+
+    paid_amount = None
+
+    if line_items:
+
+        paid_amount = line_items[0].get(
+            "amount"
+        )
+
+    expected_amount = int(
+        round(order.amount * 100)
+    )
+
+    if paid_amount is not None:
+
+        print(
+            "💰 EXPECTED AMOUNT:",
+            expected_amount
+        )
+
+        print(
+            "💰 PAID AMOUNT:",
+            paid_amount
+        )
+
+        if int(paid_amount) != expected_amount:
+
+            print(
+                "❌ PAYMENT AMOUNT MISMATCH"
+            )
+
+            return {
+                "status": "amount_mismatch"
+            }, 400
+
+    # ==================================================
+    # MARK ORDER AS PAID
+    # ==================================================
+
+    order.status = "PAID"
+
+    db.session.commit()
+
+    print(
+        "✅ ORDER MARKED AS PAID:",
+        order.order_id
+    )
+
+    # ==================================================
+    # SUCCESS
+    # ==================================================
+
+    return {
+        "status": "paid",
+        "order_id": order.order_id
+    }, 200
 
 # =========================
 # PRODUCT DETAIL
