@@ -442,40 +442,100 @@ def home():
 # PAYMONGO WEBHOOK
 @app.route("/paymongo/webhook", methods=["POST"])
 def paymongo_webhook():
-    print("🔔 PAYMONGO WEBHOOK RECEIVED")
+    import hmac
+    import hashlib
+    import time
 
+    webhook_secret = os.getenv("PAYMONGO_WEBHOOK_SECRET")
+
+    if not webhook_secret:
+        print("❌ PAYMONGO_WEBHOOK_SECRET is missing")
+        return {"status": "server configuration error"}, 500
+
+    # IMPORTANT:
+    # Get the RAW request body before parsing JSON.
+    raw_body = request.get_data()
+
+    signature_header = request.headers.get("Paymongo-Signature", "")
+
+    if not signature_header:
+        print("❌ Missing Paymongo-Signature header")
+        return {"status": "missing signature"}, 400
+
+    # Parse:
+    # t=timestamp,te=test_signature,li=live_signature
+    signature_parts = {}
+
+    for part in signature_header.split(","):
+        if "=" in part:
+            key, value = part.split("=", 1)
+            signature_parts[key] = value
+
+    timestamp = signature_parts.get("t")
+    test_signature = signature_parts.get("te")
+    live_signature = signature_parts.get("li")
+
+    if not timestamp:
+        print("❌ Missing webhook timestamp")
+        return {"status": "invalid signature"}, 400
+
+    # Our current webhook is TEST MODE.
+    received_signature = test_signature
+
+    if not received_signature:
+        print("❌ Missing test signature")
+        return {"status": "invalid signature"}, 400
+
+    # Optional replay protection:
+    # Reject requests older than 5 minutes.
+    try:
+        timestamp_int = int(timestamp)
+        if abs(time.time() - timestamp_int) > 300:
+            print("❌ Webhook timestamp too old")
+            return {"status": "expired signature"}, 400
+    except ValueError:
+        print("❌ Invalid webhook timestamp")
+        return {"status": "invalid timestamp"}, 400
+
+    # PayMongo signature:
+    # HMAC-SHA256(timestamp + "." + raw_body)
+    signed_payload = timestamp.encode() + b"." + raw_body
+
+    expected_signature = hmac.new(
+        webhook_secret.encode(),
+        signed_payload,
+        hashlib.sha256
+    ).hexdigest()
+
+    if not hmac.compare_digest(
+        expected_signature,
+        received_signature
+    ):
+        print("❌ INVALID PAYMONGO WEBHOOK SIGNATURE")
+        return {"status": "invalid signature"}, 400
+
+    print("✅ PAYMONGO WEBHOOK SIGNATURE VERIFIED")
+
+    # Only parse JSON AFTER signature verification.
     payload = request.get_json(silent=True)
 
     if not payload:
-        print("❌ Invalid webhook payload")
+        print("❌ Invalid JSON payload")
         return {"status": "invalid payload"}, 400
 
-    print("PAYMONGO EVENT RECEIVED:")
-    print(payload)
+    event_data = payload.get("data", {})
+    event_attributes = event_data.get("attributes", {})
 
+    event_type = event_attributes.get("type")
+
+    print("🔔 PAYMONGO WEBHOOK RECEIVED")
+    print("Event Type:", event_type)
+
+    if event_type == "checkout_session.payment.paid":
+        print("💰 CHECKOUT PAYMENT PAID EVENT RECEIVED")
+
+    # Acknowledge PayMongo.
     return {"status": "received"}, 200
-    
-# PRODUCT DETAIL
-@app.route("/product/<int:product_id>")
-def product(product_id):
-
-    product = Product.query.filter_by(
-        id=product_id,
-        active=True
-    ).first_or_404()
-
-    comments = ProductComment.query.filter_by(
-        product_id=product.id,
-        status="VISIBLE"
-    ).order_by(
-        ProductComment.created_at.desc()
-    ).all()
-
-    return render_template(
-        "product.html",
-        product=product,
-        comments=comments
-    )
 
 # =========================
 # CHECKOUT
